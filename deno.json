@@ -1,0 +1,17 @@
+{
+  "imports": {
+    "preact": "npm:preact@^10",
+    "preact/": "npm:preact@^10/",
+    "preact/jsx-runtime": "npm:preact@^10/jsx-runtime",
+    "preact-render-to-string": "npm:preact-render-to-string@^6",
+    "@dune/core": "jsr:@dune/core@^0.6"
+  },
+  "tasks": {
+    "dev": "deno run -A --config=deno.json jsr:@dune/core/cli serve --root . --port 8090",
+    "serve": "deno run -A --config=deno.json jsr:@dune/core/cli serve --root . --port 8090"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
+  }
+}

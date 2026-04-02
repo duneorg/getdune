@@ -1,0 +1,6 @@
+title: Dune
+description: The flat-file CMS for Deno. Markdown content, TSX themes, zero database.
+url: https://getdune.org
+home: ""
+theme:
+  name: getdune
