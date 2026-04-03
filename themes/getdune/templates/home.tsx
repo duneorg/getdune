@@ -91,8 +91,11 @@ const denoJsonCode = `{
 export default function HomeTemplate({ page, pageTitle, site, config, nav, pathname }: any) {
   return (
     <Layout site={site} config={config} nav={nav} page={page} pageTitle={pageTitle} pathname={pathname}>
+      {/* Global video background */}
+      <video class="page-video-bg" id="page-bg" autoplay muted loop playsinline></video>
+
       {/* Hero */}
-      <section class="hero">
+      <section class="hero" style="background: rgba(13,17,23,0.7)">
         <div class="hero-badge">v0.6 · now on JSR</div>
         <h1>The flat-file CMS<br />for <em>Deno</em> and <em>Fresh</em></h1>
         <p class="hero-subtitle">
@@ -114,9 +117,7 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
 
       {/* Features */}
       <section class="section features">
-        <video class="features-video" id="features-bg" autoplay muted loop playsinline></video>
-        <div class="features-overlay" />
-        <div class="section-inner features-content">
+        <div class="section-inner">
           <div class="section-label" style="color:var(--dark)">What's included</div>
           <h2 class="section-title" style="color:#fff">Markdown served the Fresh way</h2>
           <div class="features-grid">
@@ -193,7 +194,7 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
       <script dangerouslySetInnerHTML={{
         __html: `
         (function() {
-          const v = document.getElementById('features-bg');
+          const v = document.getElementById('page-bg');
           if (!v) return;
           const webm = MediaSource.isTypeSupported('video/webm; codecs=vp9');
           const src = webm
