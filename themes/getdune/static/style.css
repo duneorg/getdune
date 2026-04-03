@@ -973,6 +973,11 @@ a {
   padding-top: 1.25rem;
   border-top: 1px solid var(--dark-3);
 }
+.footer-copy a {
+  color: #4B5563;
+  transition: color 0.15s;
+}
+.footer-copy a:hover { color: var(--accent); }
 
 /* ─── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {

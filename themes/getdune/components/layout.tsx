@@ -58,6 +58,12 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
               <a href="/docs" class={isDocsPage ? "active" : ""}>Docs</a>
               <a href="/plugins" class={isPluginsPage ? "active" : ""}>Plugins</a>
               <a href="/themes" class={isThemesPage ? "active" : ""}>Themes</a>
+              <a href="https://jsr.io/@dune/core" class="nav-external" target="_blank" rel="noopener">
+                JSR
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true" style="margin-left:3px;opacity:0.6">
+                  <path d="M3.5 3a.5.5 0 0 0 0 1H7.3L2.15 9.15a.5.5 0 1 0 .7.7L8 4.7V8.5a.5.5 0 0 0 1 0v-5a.5.5 0 0 0-.5-.5h-5z" />
+                </svg>
+              </a>
               <a href="https://github.com/duneorg/dune" class="nav-external" target="_blank" rel="noopener">
                 GitHub
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true" style="margin-left:3px;opacity:0.6">
@@ -107,7 +113,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
               <a href="https://github.com/duneorg/dune" target="_blank" rel="noopener">GitHub</a>
             </nav>
             <p class="footer-copy">
-              &copy; {new Date().getFullYear()} Dune — Built with Dune
+              &copy; {new Date().getFullYear()} <a href="https://zumbrunn.com" target="_blank" rel="noopener">zumbrunn</a> — MIT licensed
             </p>
           </div>
         </footer>
