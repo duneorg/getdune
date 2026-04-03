@@ -61,7 +61,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
               <a href="https://github.com/duneorg/dune" class="nav-external" target="_blank" rel="noopener">
                 GitHub
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true" style="margin-left:3px;opacity:0.6">
-                  <path d="M3.5 3a.5.5 0 0 0 0 1H7.3L2.15 9.15a.5.5 0 1 0 .7.7L8 4.7V8.5a.5.5 0 0 0 1 0v-5a.5.5 0 0 0-.5-.5h-5z"/>
+                  <path d="M3.5 3a.5.5 0 0 0 0 1H7.3L2.15 9.15a.5.5 0 1 0 .7.7L8 4.7V8.5a.5.5 0 0 0 1 0v-5a.5.5 0 0 0-.5-.5h-5z" />
                 </svg>
               </a>
             </nav>
@@ -97,7 +97,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
           <div class="footer-inner">
             <div class="footer-brand">
               <span class="footer-wordmark">dune</span>
-              <span class="footer-tagline">The flat-file CMS for Deno</span>
+              <span class="footer-tagline">The flat-file CMS for Deno and Fresh</span>
             </div>
             <nav class="footer-nav" aria-label="Footer navigation">
               <a href="/docs">Docs</a>

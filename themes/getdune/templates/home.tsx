@@ -6,17 +6,17 @@ const features = [
   {
     icon: "📄",
     title: "Markdown content",
-    desc: "Write pages and blog posts in Markdown with YAML frontmatter. Ordered directories become the navigation.",
+    desc: "Write pages in Markdown or MDX — embedding Fresh islands directly in your content for interactive components right in the prose.",
   },
   {
     icon: "⚡",
     title: "TSX themes",
-    desc: "Themes are Preact components. Full TypeScript, zero build step — Deno compiles TSX on the fly.",
+    desc: "Themes are Preact components — the same model Fresh uses. Full TypeScript, zero build step, Deno compiles TSX on the fly.",
   },
   {
     icon: "🔌",
     title: "Plugin system",
-    desc: "Extend Dune with hooks for rendering, routing, and content transformation. Publish to JSR.",
+    desc: "Extend Dune with hooks for rendering, routing, and content — and ship interactive UI as islands that hydrate where you need them.",
   },
   {
     icon: "🗂️",
@@ -49,16 +49,22 @@ const steps = [
   {
     n: "03",
     title: "Ship it",
-    body: "Run deno task serve. Point a domain at it. Done. No database, no build pipeline, no CMS vendor lock-in.",
+    body: "Run dune serve. Point a domain at it. Done. No database, no build pipeline, no CMS vendor lock-in.",
   },
 ];
 
-const mainTsCode = `<span class="tok-kw">import</span> { <span class="tok-id">createDuneEngine</span>, <span class="tok-id">loadConfig</span> } <span class="tok-kw">from</span> <span class="tok-str">"@dune/core"</span>;
+const cliCode = `<span class="tok-cm"># Install the CLI</span>
+<span class="tok-id">deno</span> <span class="tok-fn">install</span> -A -n dune jsr:@dune/core/cli
 
-<span class="tok-kw">const</span> <span class="tok-id">config</span> = <span class="tok-kw">await</span> <span class="tok-fn">loadConfig</span>(<span class="tok-id">ROOT</span>);
-<span class="tok-kw">const</span> <span class="tok-id">engine</span> = <span class="tok-kw">await</span> <span class="tok-fn">createDuneEngine</span>({ <span class="tok-id">rootDir</span>: <span class="tok-id">ROOT</span>, <span class="tok-id">config</span> });
+<span class="tok-cm"># Create a new site</span>
+<span class="tok-id">dune</span> <span class="tok-fn">new</span> my-site
+<span class="tok-kw">cd</span> my-site
 
-<span class="tok-id">Deno</span>.<span class="tok-fn">serve</span>({ <span class="tok-id">port</span>: <span class="tok-num">8080</span> }, (<span class="tok-id">req</span>) =&gt; <span class="tok-id">engine</span>.<span class="tok-fn">handle</span>(<span class="tok-id">req</span>));`;
+<span class="tok-cm"># Start the dev server</span>
+<span class="tok-id">dune</span> <span class="tok-fn">dev</span>
+
+<span class="tok-cm"># Build for production</span>
+<span class="tok-id">dune</span> <span class="tok-fn">serve</span>`;
 
 const siteYamlCode = `<span class="tok-y">title</span><span class="tok-op">:</span> <span class="tok-ys">My Site</span>
 <span class="tok-y">description</span><span class="tok-op">:</span> <span class="tok-ys">Built with Dune</span>
@@ -71,6 +77,10 @@ const denoJsonCode = `{
     <span class="tok-str">"preact"</span>: <span class="tok-str">"npm:preact@^10"</span>,
     <span class="tok-str">"preact/jsx-runtime"</span>: <span class="tok-str">"npm:preact@^10/jsx-runtime"</span>,
     <span class="tok-str">"@dune/core"</span>: <span class="tok-str">"jsr:@dune/core@^0.6"</span>
+  },
+  <span class="tok-str">"tasks"</span>: {
+    <span class="tok-str">"dev"</span>: <span class="tok-str">"dune dev"</span>,
+    <span class="tok-str">"serve"</span>: <span class="tok-str">"dune serve"</span>
   },
   <span class="tok-str">"compilerOptions"</span>: {
     <span class="tok-str">"jsx"</span>: <span class="tok-str">"react-jsx"</span>,
@@ -97,8 +107,8 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
         </div>
         <div class="hero-install">
           <span class="prompt">$</span>
-          <code>deno run -A jsr:@dune/core/cli new my-site</code>
-          <button class="copy-btn" onclick="navigator.clipboard.writeText('deno run -A jsr:@dune/core/cli new my-site');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
+          <code>dune new my-site</code>
+          <button class="copy-btn" onclick="navigator.clipboard.writeText('dune new my-site');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
         </div>
       </section>
 
@@ -107,8 +117,8 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
         <video class="features-video" id="features-bg" autoplay muted loop playsinline></video>
         <div class="features-overlay" />
         <div class="section-inner features-content">
-          <div class="section-label">What's included</div>
-          <h2 class="section-title" style="color:#fff">Markdown served<br />the Fresh way</h2>
+          <div class="section-label" style="color:var(--dark)">What's included</div>
+          <h2 class="section-title" style="color:#fff">Markdown served the Fresh way</h2>
           <div class="features-grid">
             {features.map((f) => (
               <div key={f.title} class="feature-card">
@@ -148,16 +158,16 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
           <div class="section-label">Under the hood</div>
           <h2 class="section-title" style="color:#fff">Minimal boilerplate</h2>
           <p class="section-sub">
-            Three files to a working site: a deno.json, a site config, and an entry point.
+            Two files to a working site: a deno.json and a site config.
           </p>
           <div class="code-tabs" id="codeTabs">
             <div class="code-tab-bar">
-              <button class="active" onclick="showTab('main')">main.ts</button>
+              <button class="active" onclick="showTab('cli')">CLI</button>
               <button onclick="showTab('deno')">deno.json</button>
               <button onclick="showTab('yaml')">config/site.yaml</button>
             </div>
-            <div class="code-pane active" id="tab-main">
-              <pre dangerouslySetInnerHTML={{ __html: mainTsCode }} />
+            <div class="code-pane active" id="tab-cli">
+              <pre dangerouslySetInnerHTML={{ __html: cliCode }} />
             </div>
             <div class="code-pane" id="tab-deno">
               <pre dangerouslySetInnerHTML={{ __html: denoJsonCode }} />
@@ -180,26 +190,36 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
       </section>
 
       {/* Video background loader — bypasses wrong MIME type from static server */}
-      <script dangerouslySetInnerHTML={{ __html: `
-        fetch('/themes/getdune/static/dune.mp4')
-          .then(r => r.blob())
-          .then(blob => {
-            const v = document.getElementById('features-bg');
-            if (!v) return;
-            v.src = URL.createObjectURL(new Blob([blob], { type: 'video/mp4' }));
-            v.play().catch(() => {});
-          })
-          .catch(() => {});
+      <script dangerouslySetInnerHTML={{
+        __html: `
+        (function() {
+          const v = document.getElementById('features-bg');
+          if (!v) return;
+          const webm = MediaSource.isTypeSupported('video/webm; codecs=vp9');
+          const src = webm
+            ? '/themes/getdune/static/dune-hd.webm'
+            : '/themes/getdune/static/dune-hd.mp4';
+          const type = webm ? 'video/webm' : 'video/mp4';
+          fetch(src)
+            .then(r => r.blob())
+            .then(blob => {
+              v.src = URL.createObjectURL(new Blob([blob], { type }));
+              v.play().catch(() => {});
+            })
+            .catch(() => {});
+        })();
       `}} />
 
       {/* Tab switching script */}
-      <script dangerouslySetInnerHTML={{ __html: `
+      <script dangerouslySetInnerHTML={{
+        __html: `
         function showTab(name) {
           document.querySelectorAll('.code-pane').forEach(p => p.classList.remove('active'));
           document.querySelectorAll('.code-tab-bar button').forEach(b => b.classList.remove('active'));
           document.getElementById('tab-' + name).classList.add('active');
           event.currentTarget.classList.add('active');
         }
+        document.getElementById('tab-cli').classList.add('active');
       `}} />
     </Layout>
   );

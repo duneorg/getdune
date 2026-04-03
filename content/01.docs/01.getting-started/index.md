@@ -14,12 +14,18 @@ Install Deno if you haven't already:
 curl -fsSL https://deno.land/install.sh | sh
 ```
 
-## Create a new site
-
-Use the Dune CLI to scaffold a new site:
+## Install the Dune CLI
 
 ```bash
-deno run -A jsr:@dune/core/cli new my-site
+deno install -A -n dune jsr:@dune/core/cli
+```
+
+This makes `dune` available globally. Verify with `dune --version`.
+
+## Create a new site
+
+```bash
+dune new my-site
 cd my-site
 ```
 
@@ -28,7 +34,6 @@ This creates:
 ```
 my-site/
 ├── deno.json          # import map + compiler options
-├── main.ts            # entry point
 ├── config/
 │   └── site.yaml      # site title, theme, URL
 ├── content/
@@ -40,7 +45,7 @@ my-site/
 ## Start the dev server
 
 ```bash
-deno task dev
+dune dev
 ```
 
 Open [http://localhost:8080](http://localhost:8080). Changes to content are

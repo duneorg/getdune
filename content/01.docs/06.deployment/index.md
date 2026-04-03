@@ -14,7 +14,13 @@ The simplest production setup. Run Dune with systemd:
 rsync -av --exclude '.git' ./my-site/ user@server:/home/user/my-site/
 ```
 
-### 2. Create a systemd service
+### 2. Install the CLI on the server
+
+```bash
+deno install -A -n dune jsr:@dune/core/cli
+```
+
+### 3. Create a systemd service
 
 `/etc/systemd/system/my-site.service`:
 
@@ -29,11 +35,7 @@ User=user
 WorkingDirectory=/home/user/my-site
 Environment=PORT=8080
 Environment=DUNE_ENV=production
-ExecStart=/home/user/.deno/bin/deno run -A \
-  --config=/home/user/my-site/deno.json \
-  jsr:@dune/core/cli serve \
-  --root /home/user/my-site \
-  --port 8080
+ExecStart=/home/user/.deno/bin/dune serve --root /home/user/my-site --port 8080
 Restart=always
 
 [Install]
@@ -44,7 +46,7 @@ WantedBy=multi-user.target
 sudo systemctl enable --now my-site
 ```
 
-### 3. Reverse proxy with nginx
+### 4. Reverse proxy with nginx
 
 ```nginx
 server {
@@ -74,13 +76,13 @@ FROM denoland/deno:2.0
 
 WORKDIR /app
 COPY . .
-RUN deno cache --config=deno.json main.ts
+RUN deno install -A -n dune jsr:@dune/core/cli
 
 ENV PORT=8080
 ENV DUNE_ENV=production
 EXPOSE 8080
 
-CMD ["run", "-A", "--config=/app/deno.json", "main.ts", "serve"]
+CMD ["dune", "serve", "--root", "/app", "--port", "8080"]
 ```
 
 ```bash
@@ -93,5 +95,4 @@ docker run -p 8080:8080 my-site
 - Set `DUNE_ENV=production` — enables secure cookies for the admin panel
 - Set a strong `auth.password` in `config/site.yaml`
 - Use a reverse proxy (nginx / Caddy) for TLS termination
-- Point the `--root` flag to the absolute path of your site directory
-- Include `--config=/path/to/deno.json` so theme imports resolve correctly
+- Point `--root` to the absolute path of your site directory

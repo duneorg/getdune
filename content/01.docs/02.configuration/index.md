@@ -66,8 +66,8 @@ system:
     "@dune/core": "jsr:@dune/core@^0.6"
   },
   "tasks": {
-    "dev": "deno run -A main.ts dev",
-    "serve": "deno run -A main.ts serve"
+    "dev": "dune dev",
+    "serve": "dune serve"
   },
   "compilerOptions": {
     "jsx": "react-jsx",

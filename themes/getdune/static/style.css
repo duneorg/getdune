@@ -295,17 +295,11 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  filter: blur(1.5px) saturate(0.85);
-  opacity: 0.55;
 }
 
 .features-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom,
-      rgba(13, 17, 23, 0.78) 0%,
-      rgba(13, 17, 23, 0.65) 50%,
-      rgba(13, 17, 23, 0.78) 100%);
 }
 
 .features-content {
@@ -325,9 +319,8 @@ a {
 }
 
 .feature-card {
-  background: var(--bg-alt);
+  background: rgba(239,224,196,0.5);
   padding: 2rem;
-  backdrop-filter: blur(6px);
 }
 
 .feature-icon {
