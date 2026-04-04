@@ -113,19 +113,48 @@ a {
 
 /* ─── Hero ───────────────────────────────────────────────────────────────── */
 .hero {
-  background: var(--dark);
-  padding: 6rem 1.5rem 5rem;
+  padding: 2rem 1.5rem 5rem;
   text-align: center;
   position: relative;
   overflow: hidden;
 }
 
-.hero::before {
+/* Dark overlay — background and masking handled by the inner SVG rect (cross-browser) */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-overlay::before {
   content: "";
   position: absolute;
   inset: 0;
   background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201, 148, 58, 0.12), transparent 70%);
   pointer-events: none;
+}
+
+/* SVG that holds the mask definition — fills overlay so % coords resolve correctly */
+.hero-mask-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Font styling for the SVG mask text — viewport units work via CSS on SVG elements */
+.hero-mask-text {
+  font-size: clamp(3.5rem, 18vw, 11rem);
+  font-weight: 900;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  letter-spacing: -0.05em;
+}
+
+/* Hero content sits above the overlay */
+.hero-content {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-badge {
@@ -141,7 +170,7 @@ a {
   text-transform: uppercase;
   padding: 0.3rem 0.75rem;
   border-radius: 100px;
-  margin-bottom: 1.5rem;
+  margin-bottom: clamp(5.5rem, 17vw, 11rem);
 }
 
 .hero h1 {

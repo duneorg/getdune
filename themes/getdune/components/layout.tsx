@@ -51,7 +51,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
             <a href="/" class="wordmark" aria-label="Dune home">
               <svg width="80" height="24" viewBox="0 0 80 24" fill="none" aria-hidden="true">
                 <text x="0" y="19" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif"
-                  font-size="20" font-weight="700" fill="#C9943A" letter-spacing="-0.5">dune</text>
+                  font-size="20" font-weight="700" fill="#C9943A" letter-spacing="-0.5">Dune</text>
               </svg>
             </a>
             <nav class="header-nav" aria-label="Site navigation">
@@ -102,7 +102,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
         <footer class="site-footer">
           <div class="footer-inner">
             <div class="footer-brand">
-              <span class="footer-wordmark">dune</span>
+              <span class="footer-wordmark">Dune</span>
               <span class="footer-tagline">The flat-file CMS for Deno and Fresh</span>
             </div>
             <nav class="footer-nav" aria-label="Footer navigation">

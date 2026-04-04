@@ -98,23 +98,42 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
       </video>
 
       {/* Hero */}
-      <section class="hero" style="background: rgba(13,17,23,0.7)">
-        <div class="hero-badge">v0.6 · now on JSR</div>
-        <h1>The flat-file CMS<br />for <em>Deno</em> and <em>Fresh</em></h1>
-        <p class="hero-subtitle">
-          Markdown content. TSX themes. Zero database. Ships as a single
-          Deno module — no build pipeline required.
-        </p>
-        <div class="hero-actions">
-          <a href="/docs/getting-started" class="btn btn-primary">Get started →</a>
-          <a href="https://github.com/duneorg/dune" class="btn btn-outline" target="_blank" rel="noopener">
-            View on GitHub
-          </a>
+      <section class="hero">
+        {/* Dark overlay with SVG mask — the text shape cuts transparent holes
+            through which the fixed video background shows */}
+        <div class="hero-overlay">
+          {/* SVG handles the masked overlay natively — avoids Safari's CSS mask bugs */}
+          <svg aria-hidden="true" focusable="false" class="hero-mask-svg">
+            <defs>
+              <mask id="heroTextMask">
+                <rect width="100%" height="100%" fill="white" />
+                <text x="50%" y="26%" text-anchor="middle"
+                      dominant-baseline="middle"
+                      class="hero-mask-text" fill="black">Dune</text>
+              </mask>
+            </defs>
+            {/* Dark overlay rect with mask applied — cross-browser including Safari */}
+            <rect width="100%" height="100%" fill="rgba(13,17,23,0.7)" mask="url(#heroTextMask)" />
+          </svg>
         </div>
-        <div class="hero-install">
-          <span class="prompt">$</span>
-          <code>dune new my-site</code>
-          <button class="copy-btn" onclick="navigator.clipboard.writeText('dune new my-site');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
+        <div class="hero-content">
+          <div class="hero-badge">v0.6 · now on JSR</div>
+          <h1>The flat-file CMS<br />for <em>Deno</em> and <em>Fresh</em></h1>
+          <p class="hero-subtitle">
+            Markdown content. TSX themes. Zero database.<br />
+            Ships as a singleDeno module — no build pipeline required.
+          </p>
+          <div class="hero-actions">
+            <a href="/docs/getting-started" class="btn btn-primary">Get started →</a>
+            <a href="https://github.com/duneorg/dune" class="btn btn-outline" target="_blank" rel="noopener">
+              View on GitHub
+            </a>
+          </div>
+          <div class="hero-install">
+            <span class="prompt">$</span>
+            <code>dune new my-site</code>
+            <button class="copy-btn" onclick="navigator.clipboard.writeText('dune new my-site');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
+          </div>
         </div>
       </section>
 
@@ -193,7 +212,7 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
         </div>
       </section>
 
-      {/* Tab switching script */}
+      {/* Tab switching + Dune mask alignment */}
       <script dangerouslySetInnerHTML={{
         __html: `
         function showTab(name) {
@@ -203,6 +222,25 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
           event.currentTarget.classList.add('active');
         }
         document.getElementById('tab-cli').classList.add('active');
+
+        /* Position the SVG mask text in the visual midpoint between
+           the badge's bottom edge and the h1's top edge.
+           Runs on load and whenever the hero resizes (content wrap, font load, etc.) */
+        function alignDuneMask() {
+          var hero = document.querySelector('.hero');
+          var badge = document.querySelector('.hero-badge');
+          var h1El = document.querySelector('.hero h1');
+          var maskText = document.querySelector('.hero-mask-text');
+          if (!hero || !badge || !h1El || !maskText) return;
+          var heroTop = hero.getBoundingClientRect().top;
+          var badgeBottom = badge.getBoundingClientRect().bottom - heroTop;
+          var h1Top = h1El.getBoundingClientRect().top - heroTop;
+          maskText.setAttribute('y', String((badgeBottom + h1Top) / 2));
+        }
+
+        alignDuneMask();
+        var ro = new ResizeObserver(alignDuneMask);
+        ro.observe(document.querySelector('.hero'));
       `}} />
     </Layout>
   );
