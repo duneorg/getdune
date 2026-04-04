@@ -92,7 +92,10 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
   return (
     <Layout site={site} config={config} nav={nav} page={page} pageTitle={pageTitle} pathname={pathname}>
       {/* Global video background */}
-      <video class="page-video-bg" id="page-bg" autoplay muted loop playsinline></video>
+      <video class="page-video-bg" autoplay muted loop playsinline>
+        <source src="/themes/getdune/static/dune-hd.webm" type="video/webm" />
+        <source src="/themes/getdune/static/dune-hd.mp4" type="video/mp4" />
+      </video>
 
       {/* Hero */}
       <section class="hero" style="background: rgba(13,17,23,0.7)">
@@ -189,27 +192,6 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
           <a href="/plugins" class="btn btn-outline">Browse plugins</a>
         </div>
       </section>
-
-      {/* Video background loader — bypasses wrong MIME type from static server */}
-      <script dangerouslySetInnerHTML={{
-        __html: `
-        (function() {
-          const v = document.getElementById('page-bg');
-          if (!v) return;
-          const webm = MediaSource.isTypeSupported('video/webm; codecs=vp9');
-          const src = webm
-            ? '/themes/getdune/static/dune-hd.webm'
-            : '/themes/getdune/static/dune-hd.mp4';
-          const type = webm ? 'video/webm' : 'video/mp4';
-          fetch(src)
-            .then(r => r.blob())
-            .then(blob => {
-              v.src = URL.createObjectURL(new Blob([blob], { type }));
-              v.play().catch(() => {});
-            })
-            .catch(() => {});
-        })();
-      `}} />
 
       {/* Tab switching script */}
       <script dangerouslySetInnerHTML={{
