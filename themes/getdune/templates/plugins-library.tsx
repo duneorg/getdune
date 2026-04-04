@@ -15,7 +15,6 @@ export default function PluginsLibrary({ page, pageTitle, site, config, nav, pat
           <label>From JSR</label>
         </div>
         <div class="package-grid" id="pluginGrid">
-          {/* Skeleton cards shown while loading */}
           {[1,2,3].map((i) => (
             <div key={i} class="skeleton-card">
               <div class="sk-line sk-medium skeleton" />
@@ -26,32 +25,41 @@ export default function PluginsLibrary({ page, pageTitle, site, config, nav, pat
         </div>
       </div>
 
+      <div class="library-publish-cta">
+        <p>
+          Built a Dune plugin? Publish it to JSR and include{" "}
+          <code>dune-plugin</code> in your package description to appear here.
+        </p>
+        <a href="/docs/plugins" class="btn btn-secondary">Plugin guide →</a>
+      </div>
+
       <script dangerouslySetInnerHTML={{ __html: `
         (async function loadPlugins() {
           const grid = document.getElementById('pluginGrid');
 
+          // A package is listed if it is in the @dune scope (always curated)
+          // OR published to any scope with "dune-plugin" in the description.
+          // This is the convention — include "dune-plugin" in your JSR description.
+          function isEligible(p) {
+            if (p.scope === 'dune' && p.name !== 'core') return true;
+            return (p.description ?? '').toLowerCase().includes('dune-plugin');
+          }
+
           try {
-            // Fetch all packages from the @dune scope + keyword search
             const [scopeRes, searchRes] = await Promise.all([
               fetch('https://api.jsr.io/scopes/dune/packages'),
-              fetch('https://api.jsr.io/packages?query=dune+plugin'),
+              fetch('https://api.jsr.io/packages?query=dune-plugin'),
             ]);
             const scopeData = await scopeRes.json();
             const searchData = await searchRes.json();
 
-            // Combine and deduplicate
             const all = [...(scopeData.items ?? []), ...(searchData.items ?? [])];
             const seen = new Set();
             const packages = all.filter(p => {
               const key = p.scope + '/' + p.name;
               if (seen.has(key)) return false;
               seen.add(key);
-              // Filter: include if name contains 'plugin' OR description contains 'dune plugin'
-              // OR it's in the @dune scope and not named 'core'
-              const isPlugin = p.name.includes('plugin') ||
-                (p.description ?? '').toLowerCase().includes('dune plugin');
-              const isDuneScope = p.scope === 'dune' && p.name !== 'core';
-              return isPlugin || isDuneScope;
+              return isEligible(p);
             });
 
             grid.innerHTML = '';
@@ -61,10 +69,8 @@ export default function PluginsLibrary({ page, pageTitle, site, config, nav, pat
                 <div class="empty-state">
                   <div class="empty-state-icon">🔌</div>
                   <h3>No plugins published yet</h3>
-                  <p>Be the first to build a Dune plugin and publish it to JSR.
-                     Name your package with <code>plugin</code> in the name so it
-                     shows up here automatically.</p>
-                  <a href="/docs/plugins" class="btn btn-primary">Read the plugin API →</a>
+                  <p>Be the first — publish your plugin to JSR with
+                     <code>dune-plugin</code> in the description and it will appear here.</p>
                 </div>
               \`;
               return;

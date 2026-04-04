@@ -28,14 +28,30 @@ export default function ThemesLibrary({ page, pageTitle, site, config, nav, path
         </div>
       </div>
 
+      <div class="library-publish-cta">
+        <p>
+          Built a Dune theme? Publish it to JSR and include{" "}
+          <code>dune-theme</code> in your package description to appear here.
+        </p>
+        <a href="/docs/themes" class="btn btn-secondary">Theme guide →</a>
+      </div>
+
       <script dangerouslySetInnerHTML={{ __html: `
         (async function loadThemes() {
           const grid = document.getElementById('themeGrid');
 
+          // A package is listed if it is in the @dune scope (always curated)
+          // OR published to any scope with "dune-theme" in the description.
+          // This is the convention — include "dune-theme" in your JSR description.
+          function isEligible(p) {
+            if (p.scope === 'dune' && p.name !== 'core') return true;
+            return (p.description ?? '').toLowerCase().includes('dune-theme');
+          }
+
           try {
             const [scopeRes, searchRes] = await Promise.all([
               fetch('https://api.jsr.io/scopes/dune/packages'),
-              fetch('https://api.jsr.io/packages?query=dune+theme'),
+              fetch('https://api.jsr.io/packages?query=dune-theme'),
             ]);
             const scopeData = await scopeRes.json();
             const searchData = await searchRes.json();
@@ -46,10 +62,7 @@ export default function ThemesLibrary({ page, pageTitle, site, config, nav, path
               const key = p.scope + '/' + p.name;
               if (seen.has(key)) return false;
               seen.add(key);
-              const isTheme = p.name.includes('theme') ||
-                (p.description ?? '').toLowerCase().includes('dune theme');
-              const isDuneScope = p.scope === 'dune' && p.name !== 'core';
-              return isTheme || isDuneScope;
+              return isEligible(p);
             });
 
             grid.innerHTML = '';
@@ -59,10 +72,8 @@ export default function ThemesLibrary({ page, pageTitle, site, config, nav, path
                 <div class="empty-state">
                   <div class="empty-state-icon">🎨</div>
                   <h3>No themes published yet</h3>
-                  <p>Theme a Dune site and share it with the community by publishing
-                     to JSR. Include <code>dune-theme</code> in your description to
-                     appear here.</p>
-                  <a href="/docs/themes" class="btn btn-primary">Read the theme guide →</a>
+                  <p>Be the first — publish your theme to JSR with
+                     <code>dune-theme</code> in the description and it will appear here.</p>
                 </div>
               \`;
               return;
