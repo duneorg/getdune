@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "getdune",
+      "runtimeExecutable": "deno",
+      "runtimeArgs": ["run", "-A", "--config=deno.json", "jsr:@dune/core/cli", "serve", "--root", ".", "--port", "8090"],
+      "port": 8090
+    }
+  ]
+}

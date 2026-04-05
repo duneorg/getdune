@@ -45,7 +45,7 @@ html {
 body {
   font-family: var(--font);
   color: var(--text);
-  background: var(--bg);
+  background: transparent;
   line-height: 1.65;
 }
 
@@ -65,8 +65,10 @@ a {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--dark);
+  background: rgba(13, 17, 23, 0.88);
   border-bottom: 1px solid var(--dark-3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .header-inner {
@@ -314,7 +316,7 @@ a {
 /* ─── Features grid ──────────────────────────────────────────────────────── */
 .features {
   position: relative;
-  z-index: 1; /* cover video background */
+  z-index: 1;
   border-top: 1px solid var(--dark-3);
   border-bottom: 1px solid var(--dark-3);
 }
@@ -375,8 +377,8 @@ a {
 /* ─── How it works ───────────────────────────────────────────────────────── */
 .how-it-works {
   position: relative;
-  z-index: 1; /* cover video background */
-  background: var(--bg);
+  z-index: 1;
+  background: rgba(247, 237, 216, 0.82);
 }
 
 .steps {
@@ -421,8 +423,8 @@ a {
 /* ─── Code example section ───────────────────────────────────────────────── */
 .code-section {
   position: relative;
-  z-index: 1; /* cover video background */
-  background: var(--dark);
+  z-index: 1;
+  background: rgba(13, 17, 23, 0.65);
 }
 
 .code-section .section-title {
@@ -537,10 +539,10 @@ a {
 /* ─── CTA section ────────────────────────────────────────────────────────── */
 .cta-section {
   position: relative;
-  z-index: 1; /* cover video background */
+  z-index: 1;
   text-align: center;
   padding: 6rem 1.5rem;
-  background: var(--bg-alt);
+  background: rgba(239, 224, 196, 0.82);
   border-top: 1px solid var(--border);
 }
 
@@ -559,6 +561,10 @@ a {
 }
 
 /* ─── Docs layout ────────────────────────────────────────────────────────── */
+body.layout-docs {
+  background: rgba(247, 237, 216, 0.9);
+}
+
 .docs-layout {
   display: flex;
   max-width: var(--max-w);
@@ -734,7 +740,7 @@ a {
 
 /* ─── Plugin / Theme cards ───────────────────────────────────────────────── */
 .library-header {
-  background: var(--dark);
+  background: rgba(13, 17, 23, 0.82);
   padding: 4rem 1.5rem 3rem;
   text-align: center;
 }
@@ -758,6 +764,7 @@ a {
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 3rem 1.5rem;
+  background: rgba(247, 237, 216, 0.88);
 }
 
 .library-publish-cta {
@@ -983,8 +990,8 @@ a {
 /* ─── Footer ─────────────────────────────────────────────────────────────── */
 .site-footer {
   position: relative;
-  z-index: 1; /* cover video background */
-  background: var(--dark);
+  z-index: 1;
+  background: rgba(13, 17, 23, 0.92);
   border-top: 1px solid var(--dark-3);
   padding: 2.5rem 1.5rem;
 }

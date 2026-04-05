@@ -91,12 +91,6 @@ const denoJsonCode = `{
 export default function HomeTemplate({ page, pageTitle, site, config, nav, pathname }: any) {
   return (
     <Layout site={site} config={config} nav={nav} page={page} pageTitle={pageTitle} pathname={pathname}>
-      {/* Global video background */}
-      <video class="page-video-bg" autoplay muted loop playsinline>
-        <source src="/themes/getdune/static/dune-hd.webm" type="video/webm" />
-        <source src="/themes/getdune/static/dune-hd.mp4" type="video/mp4" />
-      </video>
-
       {/* Hero */}
       <section class="hero">
         {/* Dark overlay with SVG mask — the text shape cuts transparent holes

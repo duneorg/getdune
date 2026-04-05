@@ -46,6 +46,10 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
         <link rel="stylesheet" href={`/themes/${themeName}/static/style.css`} />
       </head>
       <body class={isDocsPage ? "layout-docs" : "layout-page"}>
+        <video class="page-video-bg" autoplay muted loop playsinline>
+          <source src="/themes/getdune/static/dune-hd.webm" type="video/webm" />
+          <source src="/themes/getdune/static/dune-hd.mp4" type="video/mp4" />
+        </video>
         <header class="site-header">
           <div class="header-inner">
             <a href="/" class="wordmark" aria-label="Dune home">
