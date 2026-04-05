@@ -39,6 +39,7 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
+  background-color: var(--dark); /* canvas colour = nav dark, so overscroll reveals nav extension */
 }
 
 body {
@@ -123,6 +124,7 @@ a {
 .hero-overlay {
   position: absolute;
   inset: 0;
+  z-index: 1; /* above video (z-index:0) */
 }
 
 .hero-overlay::before {
@@ -154,7 +156,7 @@ a {
 /* Hero content sits above the overlay */
 .hero-content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
 .hero-badge {
@@ -311,6 +313,8 @@ a {
 
 /* ─── Features grid ──────────────────────────────────────────────────────── */
 .features {
+  position: relative;
+  z-index: 1; /* cover video background */
   border-top: 1px solid var(--dark-3);
   border-bottom: 1px solid var(--dark-3);
 }
@@ -322,7 +326,7 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  z-index: -1;
+  z-index: 0; /* above html canvas; sections at z-index:1 cover it outside the hero */
 }
 
 .features-grid {
@@ -370,6 +374,8 @@ a {
 
 /* ─── How it works ───────────────────────────────────────────────────────── */
 .how-it-works {
+  position: relative;
+  z-index: 1; /* cover video background */
   background: var(--bg);
 }
 
@@ -414,6 +420,8 @@ a {
 
 /* ─── Code example section ───────────────────────────────────────────────── */
 .code-section {
+  position: relative;
+  z-index: 1; /* cover video background */
   background: var(--dark);
 }
 
@@ -528,6 +536,8 @@ a {
 
 /* ─── CTA section ────────────────────────────────────────────────────────── */
 .cta-section {
+  position: relative;
+  z-index: 1; /* cover video background */
   text-align: center;
   padding: 6rem 1.5rem;
   background: var(--bg-alt);
@@ -972,6 +982,8 @@ a {
 
 /* ─── Footer ─────────────────────────────────────────────────────────────── */
 .site-footer {
+  position: relative;
+  z-index: 1; /* cover video background */
   background: var(--dark);
   border-top: 1px solid var(--dark-3);
   padding: 2.5rem 1.5rem;
