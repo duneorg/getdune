@@ -4,3 +4,7 @@ data/
 dune-H.264.m4v
 themes/getdune/static/dune.m4v
 sand-capture.html
+
+# Full docs content — locally copied from dune/docs/content for dev.
+# For deployment this will be a git submodule.
+content/02.docs/

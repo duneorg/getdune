@@ -15,20 +15,42 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
     ? (pageRoute === "/" ? pageTitle : `${pageTitle} — Dune`)
     : (site?.title ?? "Dune");
 
+  const isIntroPage = canonicalPath.startsWith("/intro");
   const isDocsPage = canonicalPath.startsWith("/docs");
   const isPluginsPage = canonicalPath.startsWith("/plugins");
   const isThemesPage = canonicalPath.startsWith("/themes");
+  const isSidebarPage = isIntroPage || isDocsPage;
 
-  // Docs section nav
+  // Intro section nav (quick overview, 6 pages)
+  const introSections = [
+    { href: "/intro", label: "Overview" },
+    { href: "/intro/getting-started", label: "Getting Started" },
+    { href: "/intro/configuration", label: "Configuration" },
+    { href: "/intro/content", label: "Content" },
+    { href: "/intro/themes", label: "Themes" },
+    { href: "/intro/plugins", label: "Plugins" },
+    { href: "/intro/deployment", label: "Deployment" },
+  ];
+
+  // Full docs section nav (top-level sections from dune/docs/content/)
   const docsSections = [
     { href: "/docs", label: "Overview" },
     { href: "/docs/getting-started", label: "Getting Started" },
-    { href: "/docs/configuration", label: "Configuration" },
     { href: "/docs/content", label: "Content" },
+    { href: "/docs/configuration", label: "Configuration" },
     { href: "/docs/themes", label: "Themes" },
-    { href: "/docs/plugins", label: "Plugins" },
     { href: "/docs/deployment", label: "Deployment" },
+    { href: "/docs/extending", label: "Extending" },
+    { href: "/docs/reference", label: "Reference" },
+    { href: "/docs/administration", label: "Administration" },
+    { href: "/docs/flex-objects", label: "Flex Objects" },
+    { href: "/docs/forms", label: "Forms" },
+    { href: "/docs/webhooks", label: "Webhooks" },
+    { href: "/docs/comments", label: "Comments" },
+    { href: "/docs/multi-site", label: "Multi-site" },
   ];
+
+  const sidebarSections = isIntroPage ? introSections : docsSections;
 
   return (
     <html lang="en">
@@ -45,7 +67,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
         <meta property="og:type" content="website" />
         <link rel="stylesheet" href={`/themes/${themeName}/static/style.css`} />
       </head>
-      <body class={isDocsPage ? "layout-docs" : "layout-page"}>
+      <body class={isSidebarPage ? "layout-docs" : "layout-page"}>
         <video class="page-video-bg" autoplay muted loop playsinline>
           <source src="/themes/getdune/static/dune-hd.webm" type="video/webm" />
           <source src="/themes/getdune/static/dune-hd.mp4" type="video/mp4" />
@@ -59,7 +81,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
               </svg>
             </a>
             <nav class="header-nav" aria-label="Site navigation">
-              <a href="/docs" class={isDocsPage ? "active" : ""}>Docs</a>
+              <a href="/docs" class={isSidebarPage ? "active" : ""}>Docs</a>
               <a href="/plugins" class={isPluginsPage ? "active" : ""}>Plugins</a>
               <a href="/themes" class={isThemesPage ? "active" : ""}>Themes</a>
               <a href="https://jsr.io/@dune/core" class="nav-external" target="_blank" rel="noopener">
@@ -78,14 +100,15 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
           </div>
         </header>
 
-        {isDocsPage ? (
+        {isSidebarPage ? (
           <main class="docs-main">
             <div class="docs-layout">
               <aside class="docs-sidebar">
                 <nav aria-label="Documentation">
-                  {docsSections.map((s) => {
+                  {sidebarSections.map((s) => {
+                    const isRoot = s.href === "/docs" || s.href === "/intro";
                     const active = canonicalPath === s.href ||
-                      (s.href !== "/docs" && canonicalPath.startsWith(s.href));
+                      (!isRoot && canonicalPath.startsWith(s.href));
                     return (
                       <a key={s.href} href={s.href} class={active ? "active" : ""}>
                         {s.label}

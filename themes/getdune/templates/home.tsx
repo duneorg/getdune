@@ -118,7 +118,7 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
             Ships as a singleDeno module — no build pipeline required.
           </p>
           <div class="hero-actions">
-            <a href="/docs/getting-started" class="btn btn-primary">Get started →</a>
+            <a href="/intro/getting-started" class="btn btn-primary">Get started →</a>
             <a href="https://github.com/duneorg/dune" class="btn btn-outline" target="_blank" rel="noopener">
               View on GitHub
             </a>
@@ -201,7 +201,7 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
         <h2>Ready to build?</h2>
         <p>Read the docs, scaffold your first site, and see how far a flat-file stack gets you.</p>
         <div class="hero-actions">
-          <a href="/docs/getting-started" class="btn btn-primary">Read the docs →</a>
+          <a href="/intro/getting-started" class="btn btn-primary">Read the docs →</a>
           <a href="/plugins" class="btn btn-outline">Browse plugins</a>
         </div>
       </section>
