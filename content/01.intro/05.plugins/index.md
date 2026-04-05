@@ -78,14 +78,14 @@ export function myPlugin(options: { option: string } = {}): DunePlugin {
 3. Add `@dune/core` as a peer dependency in `deno.json`
 4. Publish with `deno publish`
 
-Include **`dune plugin`** in your package description so it appears in the
+Include **`dune-plugin`** in your package description so it appears in the
 [Dune plugin library](/plugins).
 
 ```json
 {
   "name": "@my-org/my-dune-plugin",
   "version": "1.0.0",
-  "description": "A dune plugin that does something useful",
+  "description": "A dune-plugin that does something useful",
   "exports": "./mod.ts"
 }
 ```

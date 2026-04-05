@@ -22,5 +22,5 @@ Deno HTTP server. No database, no build pipeline, no vendor lock-in.
 
 ## Prerequisites
 
-- [Deno](https://deno.com) 1.40 or later
+- [Deno](https://deno.com) 2.x or later
 - A terminal and a text editor — that's it

@@ -6,7 +6,7 @@ template: docs
 
 ## Requirements
 
-- [Deno](https://deno.com) 1.40+
+- [Deno](https://deno.com) 2.x
 
 Install Deno if you haven't already:
 

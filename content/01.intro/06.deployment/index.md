@@ -61,13 +61,23 @@ server {
 }
 ```
 
+## Static site (Netlify, Cloudflare Pages, S3…)
+
+Generate a fully static site and deploy anywhere:
+
+```bash
+dune build --static --base-url https://example.com
+netlify deploy --dir=dist --prod
+```
+
 ## Deno Deploy
 
-Deno Deploy runs Deno natively — but it doesn't support the local filesystem.
-Dune's file-based content system doesn't work directly on Deploy without
-mounting external storage. This is on the roadmap.
+Sync your content to Deno KV, then deploy via GitHub integration or `deployctl`:
 
-For now, use a VPS or container for production Dune deployments.
+```bash
+dune sync
+deployctl deploy --project=my-site src/main.ts
+```
 
 ## Docker
 
