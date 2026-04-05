@@ -1,0 +1,3 @@
+[submodule "content/02.docs"]
+	path = content/02.docs
+	url = git@github.com:duneorg/dune-docs.git
