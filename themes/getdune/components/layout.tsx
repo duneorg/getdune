@@ -79,24 +79,26 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
         </header>
 
         {isDocsPage ? (
-          <div class="docs-layout">
-            <aside class="docs-sidebar">
-              <nav aria-label="Documentation">
-                {docsSections.map((s) => {
-                  const active = canonicalPath === s.href ||
-                    (s.href !== "/docs" && canonicalPath.startsWith(s.href));
-                  return (
-                    <a key={s.href} href={s.href} class={active ? "active" : ""}>
-                      {s.label}
-                    </a>
-                  );
-                })}
-              </nav>
-            </aside>
-            <main class="docs-content">
-              {children}
-            </main>
-          </div>
+          <main class="docs-main">
+            <div class="docs-layout">
+              <aside class="docs-sidebar">
+                <nav aria-label="Documentation">
+                  {docsSections.map((s) => {
+                    const active = canonicalPath === s.href ||
+                      (s.href !== "/docs" && canonicalPath.startsWith(s.href));
+                    return (
+                      <a key={s.href} href={s.href} class={active ? "active" : ""}>
+                        {s.label}
+                      </a>
+                    );
+                  })}
+                </nav>
+              </aside>
+              <div class="docs-content">
+                {children}
+              </div>
+            </div>
+          </main>
         ) : (
           <main>
             {children}

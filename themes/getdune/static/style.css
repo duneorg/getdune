@@ -561,7 +561,9 @@ a {
 }
 
 /* ─── Docs layout ────────────────────────────────────────────────────────── */
-body.layout-docs {
+.docs-main {
+  position: relative;
+  z-index: 1;
   background: rgba(247, 237, 216, 0.9);
 }
 
@@ -740,6 +742,8 @@ body.layout-docs {
 
 /* ─── Plugin / Theme cards ───────────────────────────────────────────────── */
 .library-header {
+  position: relative;
+  z-index: 1;
   background: rgba(13, 17, 23, 0.82);
   padding: 4rem 1.5rem 3rem;
   text-align: center;
@@ -761,6 +765,8 @@ body.layout-docs {
 }
 
 .library-body {
+  position: relative;
+  z-index: 1;
   max-width: var(--max-w);
   margin: 0 auto;
   padding: 3rem 1.5rem;
