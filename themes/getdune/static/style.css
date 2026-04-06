@@ -15,7 +15,7 @@
   --border: #DDD0B5;
   --bg: #F7EDD8;
   --bg-alt: #EFE0C4;
-  --bg-code: #0D1117;
+  --bg-code: rgb(13, 17, 23, 0.7);
 
   --radius: 6px;
   --radius-lg: 12px;
@@ -39,7 +39,8 @@
 html {
   font-size: 16px;
   scroll-behavior: smooth;
-  background-color: var(--dark); /* canvas colour = nav dark, so overscroll reveals nav extension */
+  background-color: var(--dark);
+  /* canvas colour = nav dark, so overscroll reveals nav extension */
 }
 
 body {
@@ -65,7 +66,7 @@ a {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(13, 17, 23, 0.88);
+  background: rgba(13, 17, 23, 0.7);
   border-bottom: 1px solid var(--dark-3);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -126,7 +127,8 @@ a {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  z-index: 1; /* above video (z-index:0) */
+  z-index: 1;
+  /* above video (z-index:0) */
 }
 
 .hero-overlay::before {
@@ -328,7 +330,8 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  z-index: 0; /* above html canvas; sections at z-index:1 cover it outside the hero */
+  z-index: 0;
+  /* above html canvas; sections at z-index:1 cover it outside the hero */
 }
 
 .features-grid {
@@ -343,7 +346,7 @@ a {
 }
 
 .feature-card {
-  background: rgba(239,224,196,0.5);
+  background: rgba(239, 224, 196, 0.5);
   padding: 2rem;
 }
 
@@ -564,7 +567,7 @@ a {
 .docs-main {
   position: relative;
   z-index: 1;
-  background: rgba(247, 237, 216, 0.9);
+  background: rgba(247, 237, 216, 0.7);
 }
 
 .docs-layout {
@@ -610,6 +613,38 @@ a {
   color: var(--accent-dim);
   background: var(--accent-light);
   font-weight: 600;
+}
+
+.docs-sidebar .nav-section {
+  display: contents;
+}
+
+.docs-sidebar .nav-children {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.15rem;
+}
+
+.docs-sidebar .nav-children a {
+  padding: 0.2rem 0.6rem 0.2rem 1.1rem;
+  font-size: 0.81rem;
+  color: var(--muted);
+  border-left: 2px solid var(--border);
+  margin-left: 0.6rem;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.docs-sidebar .nav-children a:hover {
+  color: var(--accent);
+  border-left-color: var(--accent-border);
+}
+
+.docs-sidebar .nav-children a.active {
+  color: var(--accent-dim);
+  font-weight: 500;
+  border-left-color: var(--accent);
+  background: transparent;
 }
 
 .docs-content {
@@ -1053,11 +1088,15 @@ a {
   padding-top: 1.25rem;
   border-top: 1px solid var(--dark-3);
 }
+
 .footer-copy a {
   color: #4B5563;
   transition: color 0.15s;
 }
-.footer-copy a:hover { color: var(--accent); }
+
+.footer-copy a:hover {
+  color: var(--accent);
+}
 
 /* ─── Responsive ─────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {

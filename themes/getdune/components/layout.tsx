@@ -21,8 +21,10 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
   const isThemesPage = canonicalPath.startsWith("/themes");
   const isSidebarPage = isIntroPage || isDocsPage;
 
+  type NavItem = { href: string; label: string; children?: Array<{ href: string; label: string }> };
+
   // Intro section nav (quick overview, 6 pages)
-  const introSections = [
+  const introSections: NavItem[] = [
     { href: "/intro", label: "Overview" },
     { href: "/intro/getting-started", label: "Getting Started" },
     { href: "/intro/configuration", label: "Configuration" },
@@ -32,17 +34,65 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
     { href: "/intro/deployment", label: "Deployment" },
   ];
 
-  // Full docs section nav (top-level sections from dune/docs/content/)
-  const docsSections = [
+  // Full docs section nav (two-level)
+  const docsSections: NavItem[] = [
     { href: "/docs", label: "Overview" },
-    { href: "/docs/getting-started", label: "Getting Started" },
-    { href: "/docs/content", label: "Content" },
-    { href: "/docs/configuration", label: "Configuration" },
-    { href: "/docs/themes", label: "Themes" },
-    { href: "/docs/deployment", label: "Deployment" },
-    { href: "/docs/extending", label: "Extending" },
-    { href: "/docs/reference", label: "Reference" },
-    { href: "/docs/administration", label: "Administration" },
+    { href: "/docs/getting-started", label: "Getting Started", children: [
+      { href: "/docs/getting-started/installation", label: "Installation" },
+      { href: "/docs/getting-started/quickstart", label: "Quickstart" },
+      { href: "/docs/getting-started/project-structure", label: "Project Structure" },
+      { href: "/docs/getting-started/migration", label: "Migration" },
+    ]},
+    { href: "/docs/content", label: "Content", children: [
+      { href: "/docs/content/markdown", label: "Markdown Pages" },
+      { href: "/docs/content/tsx-pages", label: "TSX Pages" },
+      { href: "/docs/content/frontmatter", label: "Frontmatter" },
+      { href: "/docs/content/collections", label: "Collections" },
+      { href: "/docs/content/taxonomies", label: "Taxonomies" },
+      { href: "/docs/content/media", label: "Media" },
+      { href: "/docs/content/i18n", label: "Multilingual" },
+      { href: "/docs/content/workflow", label: "Workflow" },
+      { href: "/docs/content/machine-translation", label: "Machine Translation" },
+      { href: "/docs/content/page-builder", label: "Page Builder" },
+    ]},
+    { href: "/docs/configuration", label: "Configuration", children: [
+      { href: "/docs/configuration/site-config", label: "Site Config" },
+      { href: "/docs/configuration/system-config", label: "System Config" },
+      { href: "/docs/configuration/programmatic-config", label: "Programmatic Config" },
+    ]},
+    { href: "/docs/themes", label: "Themes", children: [
+      { href: "/docs/themes/templates", label: "Templates" },
+      { href: "/docs/themes/inheritance", label: "Inheritance" },
+      { href: "/docs/themes/creating-a-theme", label: "Creating a Theme" },
+      { href: "/docs/themes/preview-and-marketplace", label: "Preview & Marketplace" },
+    ]},
+    { href: "/docs/deployment", label: "Deployment", children: [
+      { href: "/docs/deployment/deno-deploy", label: "Deno Deploy" },
+      { href: "/docs/deployment/traditional-server", label: "Traditional Server" },
+      { href: "/docs/deployment/sitemap", label: "Sitemap" },
+      { href: "/docs/deployment/feeds", label: "RSS & Atom Feeds" },
+      { href: "/docs/deployment/static", label: "Static Site Generation" },
+      { href: "/docs/deployment/caching", label: "HTTP Caching" },
+    ]},
+    { href: "/docs/extending", label: "Extending", children: [
+      { href: "/docs/extending/hooks", label: "Hooks" },
+      { href: "/docs/extending/format-handlers", label: "Format Handlers" },
+      { href: "/docs/extending/mdx-content", label: "MDX Content" },
+      { href: "/docs/extending/plugins", label: "Plugins" },
+    ]},
+    { href: "/docs/reference", label: "Reference", children: [
+      { href: "/docs/reference/cli", label: "CLI Commands" },
+      { href: "/docs/reference/api", label: "REST API" },
+      { href: "/docs/reference/config-schema", label: "Config Schema" },
+      { href: "/docs/reference/search", label: "Search" },
+      { href: "/docs/reference/stability", label: "API Stability" },
+    ]},
+    { href: "/docs/administration", label: "Administration", children: [
+      { href: "/docs/administration/audit-log", label: "Audit Log" },
+      { href: "/docs/administration/performance", label: "Performance" },
+      { href: "/docs/administration/auth-providers", label: "Auth Providers" },
+      { href: "/docs/administration/marketplace", label: "Marketplace" },
+    ]},
     { href: "/docs/flex-objects", label: "Flex Objects" },
     { href: "/docs/forms", label: "Forms" },
     { href: "/docs/webhooks", label: "Webhooks" },
@@ -105,14 +155,26 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
             <div class="docs-layout">
               <aside class="docs-sidebar">
                 <nav aria-label="Documentation">
-                  {sidebarSections.map((s) => {
+                  {sidebarSections.map((s: NavItem) => {
                     const isRoot = s.href === "/docs" || s.href === "/intro";
-                    const active = canonicalPath === s.href ||
-                      (!isRoot && canonicalPath.startsWith(s.href));
+                    const sectionActive = canonicalPath === s.href ||
+                      (!isRoot && canonicalPath.startsWith(s.href + "/"));
                     return (
-                      <a key={s.href} href={s.href} class={active ? "active" : ""}>
-                        {s.label}
-                      </a>
+                      <div key={s.href} class="nav-section">
+                        <a href={s.href} class={sectionActive ? "active" : ""}>
+                          {s.label}
+                        </a>
+                        {sectionActive && s.children && s.children.length > 0 && (
+                          <div class="nav-children">
+                            {s.children.map((c) => (
+                              <a key={c.href} href={c.href}
+                                 class={canonicalPath === c.href ? "active" : ""}>
+                                {c.label}
+                              </a>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     );
                   })}
                 </nav>
