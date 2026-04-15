@@ -115,7 +115,7 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
           <h1>The flat-file CMS<br />for <em>Deno</em> and <em>Fresh</em></h1>
           <p class="hero-subtitle">
             Markdown content. TSX themes. Zero database.<br />
-            Ships as a singleDeno module — no build pipeline required.
+            Ships as a single Deno module — no build pipeline required.
           </p>
           <div class="hero-actions">
             <a href="/intro/getting-started" class="btn btn-primary">Get started →</a>
