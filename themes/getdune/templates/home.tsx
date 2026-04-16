@@ -2,6 +2,62 @@
 import { h } from "preact";
 import Layout from "../components/layout.tsx";
 
+// Version resolution cascade:
+//   1. In-memory cache (TTL 1h)
+//   2. JSR API → also writes disk cache
+//   3. Disk cache (data/jsr-version.json)
+//   4. deno.json import map
+//   5. null → badge renders without version number
+
+const DISK_CACHE = new URL("../../../data/jsr-version.json", import.meta.url).pathname;
+const DENO_JSON  = new URL("../../../deno.json", import.meta.url).pathname;
+const TTL = 60 * 60 * 1000; // 1 hour
+
+let cachedVersion: string | null = null;
+let cacheExpiry = 0;
+
+async function resolveVersion(): Promise<string | null> {
+  // 1. Memory cache
+  if (cachedVersion && Date.now() < cacheExpiry) return cachedVersion;
+
+  // 2. JSR API
+  try {
+    const res = await fetch("https://jsr.io/api/scopes/dune/packages/core");
+    if (res.ok) {
+      const { latestVersion } = await res.json();
+      if (latestVersion) {
+        cachedVersion = latestVersion;
+        cacheExpiry = Date.now() + TTL;
+        try { await Deno.writeTextFile(DISK_CACHE, JSON.stringify({ version: latestVersion })); } catch { /* ignore */ }
+        return cachedVersion;
+      }
+    }
+  } catch { /* API unreachable */ }
+
+  // 3. Disk cache
+  try {
+    const { version } = JSON.parse(await Deno.readTextFile(DISK_CACHE));
+    if (version) { cachedVersion = version; cacheExpiry = Date.now() + TTL; return cachedVersion; }
+  } catch { /* no disk cache yet */ }
+
+  // 4. deno.json import map
+  try {
+    const dj = JSON.parse(await Deno.readTextFile(DENO_JSON));
+    const m = (dj.imports?.["@dune/core"] ?? "").match(/@\^?([\d.]+)/);
+    if (m) { cachedVersion = m[1]; cacheExpiry = Date.now() + TTL; return cachedVersion; }
+  } catch { /* no deno.json */ }
+
+  // 5. Give up — graceful degradation
+  return null;
+}
+
+// Initial fetch on module load, then refresh hourly in the background
+let jsrVersion = await resolveVersion();
+setInterval(async () => { cacheExpiry = 0; jsrVersion = await resolveVersion(); }, TTL);
+
+// ^major.minor for deno.json snippet (e.g. "0.6.2" → "0.6")
+const jsrMinorVersion = jsrVersion?.split(".").slice(0, 2).join(".");
+
 const features = [
   {
     icon: "📄",
@@ -76,7 +132,7 @@ const denoJsonCode = `{
   <span class="tok-str">"imports"</span>: {
     <span class="tok-str">"preact"</span>: <span class="tok-str">"npm:preact@^10"</span>,
     <span class="tok-str">"preact/jsx-runtime"</span>: <span class="tok-str">"npm:preact@^10/jsx-runtime"</span>,
-    <span class="tok-str">"@dune/core"</span>: <span class="tok-str">"jsr:@dune/core@^0.6"</span>
+    <span class="tok-str">"@dune/core"</span>: <span class="tok-str">"jsr:@dune/core@^${jsrMinorVersion ?? "x.x"}"</span>
   },
   <span class="tok-str">"tasks"</span>: {
     <span class="tok-str">"dev"</span>: <span class="tok-str">"dune dev"</span>,
@@ -111,7 +167,7 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
           </svg>
         </div>
         <div class="hero-content">
-          <div class="hero-badge">v0.6 · now on JSR</div>
+          <div class="hero-badge">{jsrVersion ? `v${jsrVersion} · ` : ""}now on JSR</div>
           <h1>The flat-file CMS<br />for <em>Deno</em> and <em>Fresh</em></h1>
           <p class="hero-subtitle">
             Markdown content. TSX themes. Zero database.<br />
