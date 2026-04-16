@@ -589,6 +589,27 @@ a {
   overflow-y: auto;
 }
 
+.sidebar-version {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  background: rgba(201, 148, 58, 0.1);
+  border: 1px solid rgba(201, 148, 58, 0.25);
+  border-radius: 99px;
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.sidebar-version:hover {
+  background: rgba(201, 148, 58, 0.18);
+  border-color: rgba(201, 148, 58, 0.45);
+}
+
 .docs-sidebar nav {
   display: flex;
   flex-direction: column;

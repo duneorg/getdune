@@ -1,5 +1,6 @@
 /** @jsxImportSource preact */
 import { h } from "preact";
+import { jsrVersion } from "../utils/version.ts";
 
 export default function Layout({ children, site, config, nav, page, pageTitle, pathname }: any) {
   const themeName = config?.theme?.name ?? "getdune";
@@ -154,6 +155,11 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
           <main class="docs-main">
             <div class="docs-layout">
               <aside class="docs-sidebar">
+                {jsrVersion && (
+                  <a href="https://jsr.io/@dune/core" class="sidebar-version" target="_blank" rel="noopener">
+                    v{jsrVersion}
+                  </a>
+                )}
                 <nav aria-label="Documentation">
                   {sidebarSections.map((s: NavItem) => {
                     const isRoot = s.href === "/docs" || s.href === "/intro";
