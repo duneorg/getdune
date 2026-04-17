@@ -126,9 +126,21 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
             </a>
           </div>
           <div class="hero-install">
-            <span class="prompt">$</span>
-            <code>dune new my-site</code>
-            <button class="copy-btn" onclick="navigator.clipboard.writeText('dune new my-site');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
+            <div class="hi-row">
+              <span class="prompt">$</span>
+              <code>deno install -A -n dune jsr:@dune/core/cli</code>
+              <button class="copy-btn" onclick="navigator.clipboard.writeText('deno install -A -n dune jsr:@dune/core/cli');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
+            </div>
+            <div class="hi-row">
+              <span class="prompt">$</span>
+              <code>dune new my-site</code>
+              <button class="copy-btn" onclick="navigator.clipboard.writeText('dune new my-site');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
+            </div>
+            <div class="hi-row">
+              <span class="prompt">$</span>
+              <code>cd my-site && dune serve</code>
+              <button class="copy-btn" onclick="navigator.clipboard.writeText('cd my-site && dune serve');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
+            </div>
           </div>
         </div>
       </section>
@@ -237,6 +249,7 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
         alignDuneMask();
         var ro = new ResizeObserver(alignDuneMask);
         ro.observe(document.querySelector('.hero'));
+
       `}} />
     </Layout>
   );

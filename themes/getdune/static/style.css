@@ -245,23 +245,38 @@ a {
 }
 
 .hero-install {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
   background: var(--dark-2);
   border: 1px solid var(--dark-3);
   border-radius: var(--radius);
-  padding: 0.6rem 1rem 0.6rem 1.25rem;
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: #E2E8F0;
   margin: 0 auto;
-  max-width: 440px;
+}
+
+.hi-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  padding: 0.55rem 1rem 0.55rem 1.25rem;
+}
+
+.hi-row + .hi-row {
+  border-top: 1px solid var(--dark-3);
+  justify-content: center;
+}
+
+.hi-row code {
+  white-space: nowrap;
 }
 
 .hero-install .prompt {
   color: var(--accent);
   user-select: none;
+  flex-shrink: 0;
 }
 
 .hero-install .copy-btn {
@@ -274,7 +289,7 @@ a {
   font-size: 0.75rem;
   font-family: var(--font);
   transition: all 0.15s;
-  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .hero-install .copy-btn:hover {
