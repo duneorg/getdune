@@ -138,8 +138,8 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
             </div>
             <div class="hi-row">
               <span class="prompt">$</span>
-              <code>cd my-site && dune serve</code>
-              <button class="copy-btn" onclick="navigator.clipboard.writeText('cd my-site && dune serve');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
+              <code>dune serve --root my-site</code>
+              <button class="copy-btn" onclick="navigator.clipboard.writeText('dune serve --root my-site');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
             </div>
           </div>
         </div>
