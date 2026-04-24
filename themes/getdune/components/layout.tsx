@@ -160,6 +160,16 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
                     v{jsrVersion}
                   </a>
                 )}
+                <div class="sidebar-search">
+                  <input
+                    id="docs-search"
+                    type="search"
+                    placeholder="Search docs…"
+                    autocomplete="off"
+                    aria-label="Search documentation"
+                  />
+                  <div id="search-results" class="search-results" hidden></div>
+                </div>
                 <nav aria-label="Documentation">
                   {sidebarSections.map((s: NavItem) => {
                     const isRoot = s.href === "/docs" || s.href === "/intro";
@@ -196,6 +206,58 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
           </main>
         )}
 
+        {isSidebarPage && (
+          <script dangerouslySetInnerHTML={{ __html: `
+            (function() {
+              var input = document.getElementById('docs-search');
+              var results = document.getElementById('search-results');
+              if (!input || !results) return;
+
+              var timer;
+              input.addEventListener('input', function() {
+                clearTimeout(timer);
+                var q = input.value.trim();
+                if (!q) { results.hidden = true; results.innerHTML = ''; return; }
+                timer = setTimeout(function() { doSearch(q); }, 200);
+              });
+
+              input.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') { input.value = ''; results.hidden = true; results.innerHTML = ''; }
+              });
+
+              document.addEventListener('click', function(e) {
+                if (!input.contains(e.target) && !results.contains(e.target)) {
+                  results.hidden = true;
+                }
+              });
+
+              function doSearch(q) {
+                fetch('/api/search?q=' + encodeURIComponent(q) + '&limit=8')
+                  .then(function(r) { return r.json(); })
+                  .then(function(data) {
+                    var hits = data.items || [];
+                    if (!hits.length) {
+                      results.innerHTML = '<div class="search-empty">No results</div>';
+                      results.hidden = false;
+                      return;
+                    }
+                    results.innerHTML = hits.map(function(h) {
+                      return '<a class="search-hit" href="' + h.route + '">' +
+                        '<span class="search-hit-title">' + escHtml(h.title) + '</span>' +
+                        '<span class="search-hit-excerpt">' + escHtml(h.excerpt || '') + '</span>' +
+                        '</a>';
+                    }).join('');
+                    results.hidden = false;
+                  })
+                  .catch(function() { results.hidden = true; });
+              }
+
+              function escHtml(s) {
+                return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+              }
+            })();
+          `}} />
+        )}
         <footer class="site-footer">
           <div class="footer-inner">
             <div class="footer-brand">
