@@ -816,7 +816,7 @@ a {
 }
 
 .prose a {
-  color: var(--accent);
+  color: var(--accent-dim);
 }
 
 .prose a:hover {
