@@ -1,0 +1,33 @@
+# systemd service for getdune.org
+#
+# Install:
+#   sudo cp deploy/getdune.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable getdune
+#   sudo systemctl start getdune
+#
+# Before installing, edit the paths below:
+#   - WorkingDirectory: your deploy directory (repo root)
+#   - ExecStart: path to deno (run `which deno` to find it)
+#
+# Version management: update the @dune/core version in deno.json tasks,
+# commit, push, git pull on server, then restart. Service file never needs
+# changing.
+
+[Unit]
+Description=getdune.org Dune site
+After=network.target
+
+[Service]
+Type=simple
+User=xrs
+Group=xrs
+WorkingDirectory=/home/xrs/getdune
+Environment=DUNE_ENV=production
+Environment=DENO_DIR=/home/xrs/getdune/.deno-cache
+ExecStart=/home/xrs/.deno/bin/deno task --config=/home/xrs/getdune/deno.json serve
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

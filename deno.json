@@ -7,8 +7,8 @@
     "@dune/core": "jsr:@dune/core@^0.8"
   },
   "tasks": {
-    "dev": "deno run -A --config=deno.json jsr:@dune/core/cli serve --root . --port 8090",
-    "serve": "deno run -A --config=deno.json jsr:@dune/core/cli serve --root . --port 8090"
+    "dev": "deno run -A --config=deno.json jsr:@dune/core@0.8.3/cli serve --root . --port 8090",
+    "serve": "deno run -A --config=deno.json jsr:@dune/core@0.8.3/cli serve --root . --port 8090"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
