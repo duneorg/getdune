@@ -37,11 +37,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
 
   // Full docs section nav (two-level)
   const docsSections: NavItem[] = [
-    { href: "/docs", label: "Overview", children: [
-      { href: "/docs/for-editors", label: "For Editors" },
-      { href: "/docs/for-webmasters", label: "For Webmasters" },
-      { href: "/docs/for-developers", label: "For Developers" },
-    ]},
+    { href: "/docs", label: "Overview" },
     { href: "/docs/getting-started", label: "Getting Started", children: [
       { href: "/docs/getting-started/installation", label: "Installation" },
       { href: "/docs/getting-started/quickstart", label: "Quickstart" },
@@ -175,6 +171,13 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
                   <div id="search-results" class="search-results" hidden></div>
                 </div>
                 <nav aria-label="Documentation">
+                  {isDocsPage && (
+                    <div class="nav-paths">
+                      <a href="/docs/for-editors" class={canonicalPath === "/docs/for-editors" ? "active" : ""}>For Editors</a>
+                      <a href="/docs/for-webmasters" class={canonicalPath === "/docs/for-webmasters" ? "active" : ""}>For Webmasters</a>
+                      <a href="/docs/for-developers" class={canonicalPath.startsWith("/docs/for-developers") ? "active" : ""}>For Developers</a>
+                    </div>
+                  )}
                   {sidebarSections.map((s: NavItem) => {
                     const isRoot = s.href === "/docs" || s.href === "/intro";
                     const sectionActive = canonicalPath === s.href ||
@@ -184,7 +187,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
                         <a href={s.href} class={sectionActive ? "active" : ""}>
                           {s.label}
                         </a>
-                        {s.children && s.children.length > 0 && (sectionActive || s.href === "/docs") && (
+                        {s.children && s.children.length > 0 && sectionActive && (
                           <div class="nav-children">
                             {s.children.map((c) => (
                               <a key={c.href} href={c.href}
