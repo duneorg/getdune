@@ -171,13 +171,6 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
                   <div id="search-results" class="search-results" hidden></div>
                 </div>
                 <nav aria-label="Documentation">
-                  {isDocsPage && (
-                    <div class="nav-paths">
-                      <a href="/docs/for-editors" class={canonicalPath === "/docs/for-editors" ? "active" : ""}>For Editors</a>
-                      <a href="/docs/for-webmasters" class={canonicalPath === "/docs/for-webmasters" ? "active" : ""}>For Webmasters</a>
-                      <a href="/docs/for-developers" class={canonicalPath.startsWith("/docs/for-developers") ? "active" : ""}>For Developers</a>
-                    </div>
-                  )}
                   {sidebarSections.map((s: NavItem) => {
                     const isRoot = s.href === "/docs" || s.href === "/intro";
                     const sectionActive = canonicalPath === s.href ||
@@ -187,6 +180,13 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
                         <a href={s.href} class={sectionActive ? "active" : ""}>
                           {s.label}
                         </a>
+                        {s.href === "/docs" && (
+                          <div class="nav-paths">
+                            <a href="/docs/for-editors" class={canonicalPath === "/docs/for-editors" ? "active" : ""}>For Editors</a>
+                            <a href="/docs/for-webmasters" class={canonicalPath === "/docs/for-webmasters" ? "active" : ""}>For Webmasters</a>
+                            <a href="/docs/for-developers" class={canonicalPath.startsWith("/docs/for-developers") ? "active" : ""}>For Developers</a>
+                          </div>
+                        )}
                         {s.children && s.children.length > 0 && sectionActive && (
                           <div class="nav-children">
                             {s.children.map((c) => (
