@@ -1,0 +1,3 @@
+http_cache:
+  default_max_age: 0
+  default_swr: 0
