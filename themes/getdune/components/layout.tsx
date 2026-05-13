@@ -37,7 +37,11 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
 
   // Full docs section nav (two-level)
   const docsSections: NavItem[] = [
-    { href: "/docs", label: "Overview" },
+    { href: "/docs", label: "Overview", children: [
+      { href: "/docs/for-editors", label: "For Editors" },
+      { href: "/docs/for-webmasters", label: "For Webmasters" },
+      { href: "/docs/for-developers", label: "For Developers" },
+    ]},
     { href: "/docs/getting-started", label: "Getting Started", children: [
       { href: "/docs/getting-started/installation", label: "Installation" },
       { href: "/docs/getting-started/quickstart", label: "Quickstart" },
@@ -180,7 +184,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
                         <a href={s.href} class={sectionActive ? "active" : ""}>
                           {s.label}
                         </a>
-                        {sectionActive && s.children && s.children.length > 0 && (
+                        {s.children && s.children.length > 0 && (sectionActive || s.href === "/docs") && (
                           <div class="nav-children">
                             {s.children.map((c) => (
                               <a key={c.href} href={c.href}
