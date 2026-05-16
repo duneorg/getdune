@@ -81,6 +81,11 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
       { href: "/docs/extending/mdx-content", label: "MDX Content" },
       { href: "/docs/extending/plugins", label: "Plugins" },
     ]},
+    { href: "/docs/authentication", label: "Authentication", children: [
+      { href: "/docs/authentication/public-auth", label: "Public Authentication" },
+      { href: "/docs/authentication/content-gating", label: "Content Gating" },
+      { href: "/docs/authentication/authorization", label: "Authorization" },
+    ]},
     { href: "/docs/reference", label: "Reference", children: [
       { href: "/docs/reference/cli", label: "CLI Commands" },
       { href: "/docs/reference/api", label: "REST API" },
