@@ -8,32 +8,32 @@ const features = [
   {
     icon: "📄",
     title: "Markdown content",
-    desc: "Write pages in Markdown or MDX — embedding Fresh islands directly in your content for interactive components right in the prose.",
+    desc: "Write pages in Markdown or MDX — embedding Fresh islands directly in your content for interactive components right in the prose.",
   },
   {
     icon: "⚡",
     title: "TSX themes + Preact islands",
-    desc: "Themes are Preact components. Drop a .tsx file into themes/{name}/islands/ and Fresh bundles and hydrates it automatically — no bundler config, no registration.",
+    desc: "Themes are Preact components. Drop a .tsx file into themes/{name}/islands/ and Fresh bundles and hydrates it automatically — no bundler config, no registration.",
   },
   {
     icon: "🔌",
     title: "Plugin system",
-    desc: "Extend Dune with hooks for rendering, routing, and content — and ship interactive UI as islands that hydrate where you need them.",
+    desc: "Extend Dune with hooks for rendering, routing, and content — and ship interactive UI as islands that hydrate where you need them.",
   },
   {
     icon: "🗂️",
     title: "Multisite",
-    desc: "Serve multiple sites from a single process with shared themes. Ideal for hosting families of sites.",
+    desc: "Serve multiple sites from a single process with shared themes. Ideal for hosting families of sites.",
   },
   {
     icon: "🌐",
     title: "i18n built-in",
-    desc: "Multi-language routing, locale files, and language switcher — all wired up automatically.",
+    desc: "Multi-language routing, locale files, and language switcher — all wired up automatically.",
   },
   {
     icon: "🌱",
     title: "Grows with you",
-    desc: "Start with Markdown files. Add public user auth, a database schema, background jobs, or payments when your project needs them. Same framework, no migration.",
+    desc: "Start with Markdown files. Add public user auth, a database schema, background jobs, or payments when your project needs them. Same framework, no migration.",
   },
 ];
 
@@ -41,17 +41,17 @@ const steps = [
   {
     n: "01",
     title: "Create a site",
-    body: "Run the CLI to scaffold a new site with a starter theme, sample content, and a ready-to-run deno.json.",
+    body: "Run the CLI to scaffold a new site with a starter theme, sample content, and a ready-to-run deno.json.",
   },
   {
     n: "02",
     title: "Write your content",
-    body: "Drop markdown files into content/. Directories become sections. Frontmatter controls templates, titles, and metadata.",
+    body: "Drop markdown files into content/. Directories become sections. Frontmatter controls templates, titles, and metadata.",
   },
   {
     n: "03",
     title: "Ship it",
-    body: "Run dune serve. Point a domain at it. Done. No database, no build pipeline, no CMS vendor lock-in.",
+    body: "Run dune serve. Point a domain at it. Done. No database, no build pipeline, no CMS vendor lock-in.",
   },
 ];
 
@@ -104,8 +104,8 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
               <mask id="heroTextMask">
                 <rect width="100%" height="100%" fill="white" />
                 <text x="50%" y="26%" text-anchor="middle"
-                      dominant-baseline="middle"
-                      class="hero-mask-text" fill="black">Dune</text>
+                  dominant-baseline="middle"
+                  class="hero-mask-text" fill="black">Dune</text>
               </mask>
             </defs>
             {/* Dark overlay rect with mask applied — cross-browser including Safari */}
@@ -116,8 +116,8 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
           <div class="hero-badge">{jsrVersion ? `v${jsrVersion} · ` : ""}now on JSR</div>
           <h1>The flat-file CMS<br />for <em>Deno</em> and <em>Fresh</em></h1>
           <p class="hero-subtitle">
-            Grows from Markdown content to full-stack web apps with Preact themes and Fresh islands.<br />
-            Start without a database. Ship as a single Deno module — no build pipeline required.
+            Grows from Markdown content to full-stack web&nbsp;apps with Preact&nbsp;themes and Fresh&nbsp;islands.<br />
+            Start&nbsp;without a&nbsp;database. Ship&nbsp;as a single Deno&nbsp;module — no&nbsp;build pipeline&nbsp;required.
           </p>
           <div class="hero-actions">
             <a href="/intro/getting-started" class="btn btn-primary">Get started →</a>
@@ -149,7 +149,7 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
       <section class="section features">
         <div class="section-inner">
           <div class="section-label" style="color:var(--dark)">What's included</div>
-          <h2 class="section-title" style="color:#fff">Markdown served the Fresh way</h2>
+          <h2 class="section-title" style="color:#fff">Markdown served the Fresh&nbsp;way</h2>
           <div class="features-grid">
             {features.map((f) => (
               <div key={f.title} class="feature-card">
@@ -166,10 +166,10 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
       <section class="section how-it-works">
         <div class="section-inner">
           <div class="section-label">How it works</div>
-          <h2 class="section-title">Up and running in minutes</h2>
+          <h2 class="section-title">Up and running in&nbsp;minutes</h2>
           <p class="section-sub">
-            No config files, no installers, no local databases. Dune is a Deno module
-            you import and serve.
+            No config files, no installers, no local&nbsp;databases. Dune is a Deno&nbsp;module
+            you import and&nbsp;serve.
           </p>
           <div class="steps">
             {steps.map((s) => (
@@ -189,7 +189,7 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
           <div class="section-label">Under the hood</div>
           <h2 class="section-title" style="color:#fff">Minimal boilerplate</h2>
           <p class="section-sub">
-            Two files to a working site: a deno.json and a site config.
+            Two files to a working&nbsp;site: a&nbsp;deno.json and a site&nbsp;config.
           </p>
           <div class="code-tabs" id="codeTabs">
             <div class="code-tab-bar">
@@ -213,7 +213,7 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
       {/* CTA */}
       <section class="cta-section">
         <h2>Ready to build?</h2>
-        <p>Read the docs, scaffold your first site, and see how far a flat-file stack gets you.</p>
+        <p>Read the docs, scaffold your first site, and see how far a flat-file&nbsp;stack gets&nbsp;you.</p>
         <div class="hero-actions">
           <a href="/intro/getting-started" class="btn btn-primary">Read the docs →</a>
           <a href="/plugins" class="btn btn-outline">Browse plugins</a>
