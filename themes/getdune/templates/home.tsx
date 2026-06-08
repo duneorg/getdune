@@ -12,8 +12,8 @@ const features = [
   },
   {
     icon: "⚡",
-    title: "TSX themes",
-    desc: "Themes are Preact components — the same model Fresh uses. Full TypeScript, zero build step, Deno compiles TSX on the fly.",
+    title: "TSX themes + Preact islands",
+    desc: "Themes are Preact components. Drop a .tsx file into themes/{name}/islands/ and Fresh bundles and hydrates it automatically — no bundler config, no registration.",
   },
   {
     icon: "🔌",
@@ -31,9 +31,9 @@ const features = [
     desc: "Multi-language routing, locale files, and language switcher — all wired up automatically.",
   },
   {
-    icon: "🚀",
-    title: "Deploy anywhere",
-    desc: "Run as a standard Deno HTTP server. Deploy to Deno Deploy, fly.io, a VPS — whatever you prefer.",
+    icon: "🌱",
+    title: "Grows with you",
+    desc: "Start with Markdown files. Add public user auth, a database schema, background jobs, or payments when your project needs them. Same framework, no migration.",
   },
 ];
 
@@ -116,8 +116,8 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
           <div class="hero-badge">{jsrVersion ? `v${jsrVersion} · ` : ""}now on JSR</div>
           <h1>The flat-file CMS<br />for <em>Deno</em> and <em>Fresh</em></h1>
           <p class="hero-subtitle">
-            Markdown content. TSX themes. Zero database.<br />
-            Ships as a single Deno module — no build pipeline required.
+            Grows from Markdown content to full-stack web apps with Preact themes and Fresh islands.<br />
+            Start without a database. Ship as a single Deno module — no build pipeline required.
           </p>
           <div class="hero-actions">
             <a href="/intro/getting-started" class="btn btn-primary">Get started →</a>
