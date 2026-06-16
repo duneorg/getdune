@@ -7,6 +7,11 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
   const siteUrl = (site?.url ?? "").replace(/\/$/, "");
   const pageRoute = page?.route ?? "/";
   const canonicalPath = pathname ?? pageRoute;
+  // Page-folder routes serve with a trailing slash (Dune 0.20+); nav hrefs
+  // below are written without one, so strip it before comparing for
+  // active-state — otherwise every exact match silently breaks.
+  const stripTrailingSlash = (p: string) => p !== "/" && p.endsWith("/") ? p.slice(0, -1) : p;
+  const normalizedPath = stripTrailingSlash(canonicalPath);
   const canonicalUrl = `${siteUrl}${canonicalPath}`;
   const pageDescription = page?.frontmatter?.description
     ?? page?.frontmatter?.descriptor
@@ -178,7 +183,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
                 <nav aria-label="Documentation">
                   {sidebarSections.map((s: NavItem) => {
                     const isRoot = s.href === "/docs" || s.href === "/intro";
-                    const sectionActive = canonicalPath === s.href ||
+                    const sectionActive = normalizedPath === s.href ||
                       (!isRoot && canonicalPath.startsWith(s.href + "/"));
                     return (
                       <div key={s.href} class="nav-section">
@@ -187,8 +192,8 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
                         </a>
                         {s.href === "/docs" && (
                           <div class="nav-paths">
-                            <a href="/docs/for-editors" class={canonicalPath === "/docs/for-editors" ? "active" : ""}>For Editors</a>
-                            <a href="/docs/for-webmasters" class={canonicalPath === "/docs/for-webmasters" ? "active" : ""}>For Webmasters</a>
+                            <a href="/docs/for-editors" class={normalizedPath === "/docs/for-editors" ? "active" : ""}>For Editors</a>
+                            <a href="/docs/for-webmasters" class={normalizedPath === "/docs/for-webmasters" ? "active" : ""}>For Webmasters</a>
                             <a href="/docs/for-developers" class={canonicalPath.startsWith("/docs/for-developers") ? "active" : ""}>For Developers</a>
                           </div>
                         )}
@@ -196,7 +201,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
                           <div class="nav-children">
                             {s.children.map((c) => (
                               <a key={c.href} href={c.href}
-                                 class={canonicalPath === c.href ? "active" : ""}>
+                                 class={normalizedPath === c.href ? "active" : ""}>
                                 {c.label}
                               </a>
                             ))}

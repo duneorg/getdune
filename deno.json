@@ -4,11 +4,11 @@
     "preact/": "npm:preact@^10/",
     "preact/jsx-runtime": "npm:preact@^10/jsx-runtime",
     "preact-render-to-string": "npm:preact-render-to-string@^6",
-    "@dune/core": "jsr:@dune/core@0.19.1"
+    "@dune/core": "jsr:@dune/core@0.21.4"
   },
   "tasks": {
-    "dev": "deno run -A --config=deno.json jsr:@dune/core@0.19.1/cli serve --root . --port 8085",
-    "serve": "deno run -A --config=deno.json jsr:@dune/core@0.19.1/cli serve --root . --port 8085"
+    "dev": "deno run -A --config=deno.json jsr:@dune/core@0.21.4/cli serve --root . --port 8085",
+    "serve": "deno run -A --config=deno.json jsr:@dune/core@0.21.4/cli serve --root . --port 8085"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
