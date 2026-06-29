@@ -44,7 +44,6 @@ export default function ThemesLibrary({ page, pageTitle, site, config, nav, path
           // OR published to any scope with "dune-theme" in the description.
           // This is the convention — include "dune-theme" in your JSR description.
           function isEligible(p) {
-            if (p.scope === 'dune' && p.name !== 'core') return true;
             return (p.description ?? '').toLowerCase().includes('dune-theme');
           }
 

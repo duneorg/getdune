@@ -41,7 +41,6 @@ export default function PluginsLibrary({ page, pageTitle, site, config, nav, pat
           // OR published to any scope with "dune-plugin" in the description.
           // This is the convention — include "dune-plugin" in your JSR description.
           function isEligible(p) {
-            if (p.scope === 'dune' && p.name !== 'core') return true;
             return (p.description ?? '').toLowerCase().includes('dune-plugin');
           }
 
