@@ -44,15 +44,35 @@ export default function PluginsLibrary({ page, pageTitle, site, config, nav, pat
             return (p.description ?? '').toLowerCase().includes('dune-plugin');
           }
 
+          // JSR's own package list API (api.jsr.io/packages?query=) does not do
+          // full-text search — it returns 0 hits for "dune-plugin" even though
+          // jsr.io's website search finds it correctly. That's because jsr.io's
+          // search box is backed by a separate Algolia index, not that API.
+          // These are JSR's own public search-only credentials, read out of
+          // jsr.io's frontend JS bundle (a search-only key is meant to be used
+          // client-side like this — same as JSR's own site does). If JSR
+          // rotates them this call will start failing and need updating.
+          const ALGOLIA_APP_ID = 'NM4F4ZN5Z1';
+          const ALGOLIA_SEARCH_KEY = 'f1c9c5e7309104ac81f7d333036fb0ad';
+          const ALGOLIA_INDEX = 'prod_packages';
+
           try {
             const [scopeRes, searchRes] = await Promise.all([
               fetch('https://api.jsr.io/scopes/dune/packages'),
-              fetch('https://api.jsr.io/packages?query=dune-plugin'),
+              fetch(\`https://\${ALGOLIA_APP_ID}-dsn.algolia.net/1/indexes/\${ALGOLIA_INDEX}/query\`, {
+                method: 'POST',
+                headers: {
+                  'X-Algolia-API-Key': ALGOLIA_SEARCH_KEY,
+                  'X-Algolia-Application-Id': ALGOLIA_APP_ID,
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ query: 'dune-plugin' }),
+              }),
             ]);
             const scopeData = await scopeRes.json();
             const searchData = await searchRes.json();
 
-            const all = [...(scopeData.items ?? []), ...(searchData.items ?? [])];
+            const all = [...(scopeData.items ?? []), ...(searchData.hits ?? [])];
             const seen = new Set();
             const packages = all.filter(p => {
               const key = p.scope + '/' + p.name;
