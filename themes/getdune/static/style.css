@@ -991,6 +991,15 @@ a {
   gap: 1.25rem;
 }
 
+.package-screenshot {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border-radius: var(--radius-md, 6px);
+  margin-bottom: 0.75rem;
+}
+
 .package-card {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
