@@ -40,49 +40,12 @@ export default function ThemesLibrary({ page, pageTitle, site, config, nav, path
         (async function loadThemes() {
           const grid = document.getElementById('themeGrid');
 
-          // A package is listed if it is in the @dune scope (always curated)
-          // OR published to any scope with "dune-theme" in the description.
-          // This is the convention — include "dune-theme" in your JSR description.
-          function isEligible(p) {
-            return (p.description ?? '').toLowerCase().includes('dune-theme');
-          }
-
-          // JSR's own package list API (api.jsr.io/packages?query=) does not do
-          // full-text search — it returns 0 hits for "dune-theme" even though
-          // jsr.io's website search finds it correctly. That's because jsr.io's
-          // search box is backed by a separate Algolia index, not that API.
-          // These are JSR's own public search-only credentials, read out of
-          // jsr.io's frontend JS bundle (a search-only key is meant to be used
-          // client-side like this — same as JSR's own site does). If JSR
-          // rotates them this call will start failing and need updating.
-          const ALGOLIA_APP_ID = 'NM4F4ZN5Z1';
-          const ALGOLIA_SEARCH_KEY = 'f1c9c5e7309104ac81f7d333036fb0ad';
-          const ALGOLIA_INDEX = 'prod_packages';
-
+          // duneorg/dune-registry refreshes this daily from JSR (see that
+          // repo's README for why it's not queried live here per-request).
           try {
-            const [scopeRes, searchRes] = await Promise.all([
-              fetch('https://api.jsr.io/scopes/dune/packages'),
-              fetch(\`https://\${ALGOLIA_APP_ID}-dsn.algolia.net/1/indexes/\${ALGOLIA_INDEX}/query\`, {
-                method: 'POST',
-                headers: {
-                  'X-Algolia-API-Key': ALGOLIA_SEARCH_KEY,
-                  'X-Algolia-Application-Id': ALGOLIA_APP_ID,
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ query: 'dune-theme' }),
-              }),
-            ]);
-            const scopeData = await scopeRes.json();
-            const searchData = await searchRes.json();
-
-            const all = [...(scopeData.items ?? []), ...(searchData.hits ?? [])];
-            const seen = new Set();
-            const packages = all.filter(p => {
-              const key = p.scope + '/' + p.name;
-              if (seen.has(key)) return false;
-              seen.add(key);
-              return isEligible(p);
-            });
+            const res = await fetch('https://raw.githubusercontent.com/duneorg/dune-registry/main/themes.json');
+            const data = await res.json();
+            const packages = data.themes ?? [];
 
             grid.innerHTML = '';
 
@@ -99,27 +62,22 @@ export default function ThemesLibrary({ page, pageTitle, site, config, nav, path
             }
 
             packages.forEach(pkg => {
-              const install = \`jsr:@\${pkg.scope}/\${pkg.name}@^\${pkg.latestVersion ?? '0.1'}\`;
-              const jsrUrl = \`https://jsr.io/@\${pkg.scope}/\${pkg.name}\`;
-              const ghUrl = pkg.githubRepository
-                ? \`https://github.com/\${pkg.githubRepository.owner}/\${pkg.githubRepository.name}\`
-                : null;
               grid.insertAdjacentHTML('beforeend', \`
                 <div class="package-card">
+                  \${pkg.screenshotUrl ? \`<img class="package-screenshot" src="\${pkg.screenshotUrl}" alt="\${pkg.displayName} screenshot" loading="lazy" />\` : ''}
                   <div class="package-card-header">
-                    <div class="package-name">
-                      <span class="package-scope">@\${pkg.scope}/</span>\${pkg.name}
-                    </div>
-                    \${pkg.latestVersion ? \`<span class="package-version">v\${pkg.latestVersion}</span>\` : ''}
+                    <div class="package-name">\${pkg.displayName}</div>
+                    \${pkg.version ? \`<span class="package-version">v\${pkg.version}</span>\` : ''}
                   </div>
-                  <p class="package-desc">\${pkg.description ?? 'No description.'}</p>
+                  <p class="package-desc">\${pkg.description || 'No description.'}</p>
                   <div class="package-install">
                     <span class="pi-cmd">import</span>
-                    <span>\${install}</span>
+                    <span>\${pkg.jsrInstall}</span>
                   </div>
                   <div class="package-links">
-                    <a href="\${jsrUrl}" target="_blank" rel="noopener">JSR ↗</a>
-                    \${ghUrl ? \`<a href="\${ghUrl}" target="_blank" rel="noopener">GitHub ↗</a>\` : ''}
+                    \${pkg.demoUrl ? \`<a href="\${pkg.demoUrl}" target="_blank" rel="noopener">Demo ↗</a>\` : ''}
+                    <a href="\${pkg.jsrUrl}" target="_blank" rel="noopener">JSR ↗</a>
+                    \${pkg.githubUrl ? \`<a href="\${pkg.githubUrl}" target="_blank" rel="noopener">GitHub ↗</a>\` : ''}
                   </div>
                 </div>
               \`);
@@ -129,7 +87,7 @@ export default function ThemesLibrary({ page, pageTitle, site, config, nav, path
               <div class="empty-state">
                 <div class="empty-state-icon">⚠️</div>
                 <h3>Could not load packages</h3>
-                <p>Failed to query the JSR API. Try refreshing, or browse
+                <p>Try refreshing, or browse
                    <a href="https://jsr.io/@dune" target="_blank" rel="noopener">jsr.io/@dune</a> directly.</p>
               </div>
             \`;
