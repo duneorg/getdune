@@ -26,15 +26,17 @@ export default function ThemesLibrary({ page, pageTitle, site, config, nav, path
             </div>
           ))}
         </div>
+
+        <div class="library-publish-cta">
+          <p>
+            Built a Dune theme? Publish it to JSR and include{" "}
+            <code>dune-theme</code> in your package description to appear here.
+          </p>
+          <a href="/docs/themes" class="btn btn-secondary">Theme guide →</a>
+        </div>
       </div>
 
-      <div class="library-publish-cta">
-        <p>
-          Built a Dune theme? Publish it to JSR and include{" "}
-          <code>dune-theme</code> in your package description to appear here.
-        </p>
-        <a href="/docs/themes" class="btn btn-secondary">Theme guide →</a>
-      </div>
+      <div class="library-video-gap"></div>
 
       <script dangerouslySetInnerHTML={{ __html: `
         (async function loadThemes() {

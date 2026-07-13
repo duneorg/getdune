@@ -939,34 +939,37 @@ a {
   z-index: 1;
   max-width: var(--max-w);
   margin: 0 auto;
-  padding: 3rem 1.5rem;
+  padding: 3rem 1.5rem 1.8rem;
   background: rgba(247, 237, 216, 0.88);
 }
 
+/* Deliberately empty — lets the fixed video background show through
+   between the content area above and the footer below. */
+.library-video-gap {
+  height: 10rem;
+}
+
 .library-publish-cta {
-  max-width: var(--max-w);
-  margin: 0 auto 4rem;
-  padding: 1.5rem 2rem;
+  text-align: center;
+  padding: 3rem 1.5rem 0.6rem;
   border-top: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  flex-wrap: wrap;
+  margin-top: 1rem;
 }
 
 .library-publish-cta p {
-  color: var(--muted);
-  font-size: 0.9rem;
-  margin: 0;
+  color: var(--text-2);
+  max-width: 400px;
+  margin: 0 auto 1rem;
+  font-size: 0.925rem;
 }
 
 .library-publish-cta code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
   background: var(--bg-alt);
-  padding: 0.1em 0.4em;
+  border: 1px solid var(--border);
+  padding: 0.1em 0.35em;
   border-radius: 4px;
-  font-size: 0.85em;
-  color: var(--fg);
 }
 
 .library-filter {

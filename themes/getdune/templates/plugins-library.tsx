@@ -23,15 +23,17 @@ export default function PluginsLibrary({ page, pageTitle, site, config, nav, pat
             </div>
           ))}
         </div>
+
+        <div class="library-publish-cta">
+          <p>
+            Built a Dune plugin? Publish it to JSR and include{" "}
+            <code>dune-plugin</code> in your package description to appear here.
+          </p>
+          <a href="/docs/plugins" class="btn btn-secondary">Plugin guide →</a>
+        </div>
       </div>
 
-      <div class="library-publish-cta">
-        <p>
-          Built a Dune plugin? Publish it to JSR and include{" "}
-          <code>dune-plugin</code> in your package description to appear here.
-        </p>
-        <a href="/docs/plugins" class="btn btn-secondary">Plugin guide →</a>
-      </div>
+      <div class="library-video-gap"></div>
 
       <script dangerouslySetInnerHTML={{ __html: `
         (async function loadPlugins() {
