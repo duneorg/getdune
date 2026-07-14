@@ -73,8 +73,9 @@ export default function ThemesLibrary({ page, pageTitle, site, config, nav, path
                   </div>
                   <p class="package-desc">\${pkg.description || 'No description.'}</p>
                   <div class="package-install">
-                    <span class="pi-cmd">import</span>
-                    <span>\${pkg.jsrInstall}</span>
+                    <span class="prompt">$</span>
+                    <code>dune theme:install \${pkg.jsrInstall} --activate</code>
+                    <button class="copy-btn" onclick="navigator.clipboard.writeText('dune theme:install \${pkg.jsrInstall} --activate');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
                   </div>
                   <div class="package-links">
                     \${pkg.demoUrl ? \`<a href="\${pkg.demoUrl}" target="_blank" rel="noopener">Demo ↗</a>\` : ''}
