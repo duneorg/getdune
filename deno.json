@@ -4,11 +4,28 @@
     "preact/": "npm:preact@^10/",
     "preact/jsx-runtime": "npm:preact@^10/jsx-runtime",
     "preact-render-to-string": "npm:preact-render-to-string@^6",
-    "@dune/core": "jsr:@dune/core@0.28.3"
+    "@dune/core": "jsr:@dune/core@0.30.1",
+    "fresh": "jsr:@fresh/core@^2",
+    "@std/yaml": "jsr:@std/yaml@^1",
+    "@std/path": "jsr:@std/path@^1.1.4",
+    "@std/fs": "jsr:@std/fs@^1",
+    "@std/crypto": "jsr:@std/crypto@^1",
+    "@std/encoding": "jsr:@std/encoding@^1",
+    "marked": "npm:marked@^15",
+    "gray-matter": "npm:gray-matter@^4",
+    "@mdx-js/mdx": "npm:@mdx-js/mdx@^3",
+    "sharp": "npm:sharp@^0.33",
+    "nodemailer": "npm:nodemailer@^6",
+    "@zip-js/zip-js": "jsr:@zip-js/zip-js@^2",
+    "@db/sqlite": "jsr:@db/sqlite@^0.12",
+    "postgres": "npm:postgres@^3.4",
+    "ioredis": "npm:ioredis@^5",
+    "polizy": "npm:polizy@^0.2.0"
   },
   "tasks": {
-    "dev": "deno run -A --config=deno.json jsr:@dune/core@0.28.3/cli serve --root . --port 8085",
-    "serve": "deno run -A --config=deno.json jsr:@dune/core@0.28.3/cli serve --root . --port 8085"
+    "dev": "deno run -A --watch=main.ts main.ts dev",
+    "serve": "deno run -A main.ts serve --root . --port 8085",
+    "build": "deno run -A main.ts build"
   },
   "compilerOptions": {
     "jsx": "react-jsx",
