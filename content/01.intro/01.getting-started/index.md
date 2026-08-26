@@ -17,7 +17,7 @@ curl -fsSL https://deno.land/install.sh | sh
 ## Install the Dune CLI
 
 ```bash
-deno install -A -n dune jsr:@dune/core/cli
+deno install --global -A -n dune jsr:@dune/core/cli
 ```
 
 This makes `dune` available globally. Verify with `dune --version`.
