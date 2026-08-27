@@ -17,7 +17,7 @@ rsync -av --exclude '.git' ./my-site/ user@server:/home/user/my-site/
 ### 2. Install the CLI on the server
 
 ```bash
-deno install -A -n dune jsr:@dune/core/cli
+deno install --global -A -n dune jsr:@dune/core/cli
 ```
 
 ### 3. Create a systemd service
@@ -86,7 +86,7 @@ FROM denoland/deno:2.0
 
 WORKDIR /app
 COPY . .
-RUN deno install -A -n dune jsr:@dune/core/cli
+RUN deno install --global -A -n dune jsr:@dune/core/cli
 
 ENV PORT=8080
 ENV DUNE_ENV=production

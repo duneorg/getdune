@@ -128,8 +128,8 @@ export default function HomeTemplate({ page, pageTitle, site, config, nav, pathn
           <div class="hero-install">
             <div class="hi-row">
               <span class="prompt">$</span>
-              <code>deno install -A -n dune jsr:@dune/core/cli</code>
-              <button class="copy-btn" onclick="navigator.clipboard.writeText('deno install -A -n dune jsr:@dune/core/cli');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
+              <code>deno install --global -A -n dune jsr:@dune/core/cli</code>
+              <button class="copy-btn" onclick="navigator.clipboard.writeText('deno install --global -A -n dune jsr:@dune/core/cli');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
             </div>
             <div class="hi-row">
               <span class="prompt">$</span>
