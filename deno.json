@@ -8,7 +8,7 @@
     "preact/": "npm:preact@^10/",
     "preact/jsx-runtime": "npm:preact@^10/jsx-runtime",
     "preact-render-to-string": "npm:preact-render-to-string@^6",
-    "@dune/core": "jsr:@dune/core@0.32.0",
+    "@dune/core": "jsr:@dune/core@0.34.1",
     "fresh": "jsr:@fresh/core@^2",
     "@std/yaml": "jsr:@std/yaml@^1",
     "@std/path": "jsr:@std/path@^1.1.4",
