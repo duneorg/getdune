@@ -5,4 +5,5 @@ home: ""
 theme:
   name: getdune
 redirects:
-  /docs/extending/mdx-content: /docs/content/mdx-content
+  /docs/extending/mdx-content: /docs/content/mdx-content/
+  /docs/extending/mdx-content/: /docs/content/mdx-content/
