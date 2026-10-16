@@ -4,3 +4,5 @@ url: https://getdune.org
 home: ""
 theme:
   name: getdune
+redirects:
+  /docs/extending/mdx-content: /docs/content/mdx-content
