@@ -52,6 +52,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
     { href: "/docs/content", label: "Content", children: [
       { href: "/docs/content/markdown", label: "Markdown Pages" },
       { href: "/docs/content/tsx-pages", label: "TSX Pages" },
+      { href: "/docs/content/mdx-content", label: "MDX Content" },
       { href: "/docs/content/frontmatter", label: "Frontmatter" },
       { href: "/docs/content/collections", label: "Collections" },
       { href: "/docs/content/taxonomies", label: "Taxonomies" },
@@ -83,7 +84,6 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
     { href: "/docs/extending", label: "Extending", children: [
       { href: "/docs/extending/hooks", label: "Hooks" },
       { href: "/docs/extending/format-handlers", label: "Format Handlers" },
-      { href: "/docs/extending/mdx-content", label: "MDX Content" },
       { href: "/docs/extending/plugins", label: "Plugins" },
     ]},
     { href: "/docs/authentication", label: "Authentication", children: [
