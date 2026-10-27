@@ -259,7 +259,8 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
                       return;
                     }
                     results.innerHTML = hits.map(function(h) {
-                      return '<a class="search-hit" href="' + h.route + '">' +
+                      var route = String(h.route || '');
+                      return '<a class="search-hit" href="' + (route.charAt(0) === '/' ? escHtml(route) : '#') + '">' +
                         '<span class="search-hit-title">' + escHtml(h.title) + '</span>' +
                         '<span class="search-hit-excerpt">' + escHtml(h.excerpt || '') + '</span>' +
                         '</a>';
@@ -270,7 +271,7 @@ export default function Layout({ children, site, config, nav, page, pageTitle, p
               }
 
               function escHtml(s) {
-                return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
               }
             })();
           `}} />

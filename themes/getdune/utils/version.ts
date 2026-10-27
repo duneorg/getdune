@@ -12,6 +12,10 @@ const DISK_CACHE = new URL("../../../../data/jsr-version.json", import.meta.url)
 const DENO_JSON  = new URL("../../../../deno.json", import.meta.url).pathname;
 const TTL = 60 * 60 * 1000; // 1 hour
 
+/** Only a plain semver ever reaches the page (home.tsx puts it into raw HTML). */
+const SEMVER = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/;
+const asVersion = (v: unknown): string | null => typeof v === "string" && SEMVER.test(v) ? v : null;
+
 let _cached: string | null = null;
 let _expiry = 0;
 
@@ -23,7 +27,7 @@ async function resolve(): Promise<string | null> {
   try {
     const res = await fetch("https://jsr.io/api/scopes/dune/packages/core");
     if (res.ok) {
-      const { latestVersion } = await res.json();
+      const latestVersion = asVersion((await res.json()).latestVersion);
       if (latestVersion) {
         _cached = latestVersion;
         _expiry = Date.now() + TTL;
@@ -35,7 +39,7 @@ async function resolve(): Promise<string | null> {
 
   // 3. Disk cache
   try {
-    const { version } = JSON.parse(await Deno.readTextFile(DISK_CACHE));
+    const version = asVersion(JSON.parse(await Deno.readTextFile(DISK_CACHE)).version);
     if (version) { _cached = version; _expiry = Date.now() + TTL; return _cached; }
   } catch { /* no disk cache yet */ }
 
@@ -43,7 +47,7 @@ async function resolve(): Promise<string | null> {
   try {
     const dj = JSON.parse(await Deno.readTextFile(DENO_JSON));
     const m = (dj.imports?.["@dune/core"] ?? "").match(/@\^?([\d.]+)/);
-    if (m) { _cached = m[1]; _expiry = Date.now() + TTL; return _cached; }
+    if (m && asVersion(m[1])) { _cached = m[1]; _expiry = Date.now() + TTL; return _cached; }
   } catch { /* no deno.json */ }
 
   // 5. Give up
