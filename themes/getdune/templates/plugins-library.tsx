@@ -39,6 +39,16 @@ export default function PluginsLibrary({ page, pageTitle, site, config, nav, pat
         (async function loadPlugins() {
           const grid = document.getElementById('pluginGrid');
 
+          // Registry data includes text written by third parties (JSR package
+          // descriptions), so nothing from it goes into the page unescaped.
+          const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+          const safeUrl = (v) => {
+            try { const u = new URL(String(v)); return u.protocol === 'https:' ? esc(u.href) : ''; }
+            catch { return ''; }
+          };
+
+
           // duneorg/dune-registry refreshes this daily from JSR (see that
           // repo's README for why it's not queried live here per-request).
           try {
@@ -64,17 +74,17 @@ export default function PluginsLibrary({ page, pageTitle, site, config, nav, pat
               grid.insertAdjacentHTML('beforeend', \`
                 <div class="package-card">
                   <div class="package-card-header">
-                    <div class="package-name">\${pkg.displayName}</div>
-                    \${pkg.version ? \`<span class="package-version">v\${pkg.version}</span>\` : ''}
+                    <div class="package-name">\${esc(pkg.displayName)}</div>
+                    \${pkg.version ? \`<span class="package-version">v\${esc(pkg.version)}</span>\` : ''}
                   </div>
-                  <p class="package-desc">\${pkg.description || 'No description.'}</p>
+                  <p class="package-desc">\${esc(pkg.description || 'No description.')}</p>
                   <div class="package-install">
                     <span class="pi-cmd">import</span>
-                    <span>\${pkg.jsrInstall}</span>
+                    <span>\${esc(pkg.jsrInstall)}</span>
                   </div>
                   <div class="package-links">
-                    <a href="\${pkg.jsrUrl}" target="_blank" rel="noopener">JSR ↗</a>
-                    \${pkg.githubUrl ? \`<a href="\${pkg.githubUrl}" target="_blank" rel="noopener">GitHub ↗</a>\` : ''}
+                    <a href="\${safeUrl(pkg.jsrUrl)}" target="_blank" rel="noopener">JSR ↗</a>
+                    \${safeUrl(pkg.githubUrl) ? \`<a href="\${safeUrl(pkg.githubUrl)}" target="_blank" rel="noopener">GitHub ↗</a>\` : ''}
                   </div>
                 </div>
               \`);

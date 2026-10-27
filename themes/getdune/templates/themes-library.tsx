@@ -42,6 +42,16 @@ export default function ThemesLibrary({ page, pageTitle, site, config, nav, path
         (async function loadThemes() {
           const grid = document.getElementById('themeGrid');
 
+          // Registry data includes text written by third parties (JSR package
+          // descriptions), so nothing from it goes into the page unescaped.
+          const esc = (v) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+          const safeUrl = (v) => {
+            try { const u = new URL(String(v)); return u.protocol === 'https:' ? esc(u.href) : ''; }
+            catch { return ''; }
+          };
+
+
           // duneorg/dune-registry refreshes this daily from JSR (see that
           // repo's README for why it's not queried live here per-request).
           try {
@@ -66,21 +76,21 @@ export default function ThemesLibrary({ page, pageTitle, site, config, nav, path
             packages.forEach(pkg => {
               grid.insertAdjacentHTML('beforeend', \`
                 <div class="package-card">
-                  \${pkg.screenshotUrl ? \`<img class="package-screenshot" src="\${pkg.screenshotUrl}" alt="\${pkg.displayName} screenshot" loading="lazy" />\` : ''}
+                  \${safeUrl(pkg.screenshotUrl) ? \`<img class="package-screenshot" src="\${safeUrl(pkg.screenshotUrl)}" alt="\${esc(pkg.displayName)} screenshot" loading="lazy" />\` : ''}
                   <div class="package-card-header">
-                    <div class="package-name">\${pkg.displayName}</div>
-                    \${pkg.version ? \`<span class="package-version">v\${pkg.version}</span>\` : ''}
+                    <div class="package-name">\${esc(pkg.displayName)}</div>
+                    \${pkg.version ? \`<span class="package-version">v\${esc(pkg.version)}</span>\` : ''}
                   </div>
-                  <p class="package-desc">\${pkg.description || 'No description.'}</p>
+                  <p class="package-desc">\${esc(pkg.description || 'No description.')}</p>
                   <div class="package-install">
                     <span class="prompt">$</span>
-                    <code>dune theme:install \${pkg.jsrInstall} --activate</code>
-                    <button class="copy-btn" onclick="navigator.clipboard.writeText('dune theme:install \${pkg.jsrInstall} --activate');this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
+                    <code>dune theme:install \${esc(pkg.jsrInstall)} --activate</code>
+                    <button class="copy-btn" data-cmd="dune theme:install \${esc(pkg.jsrInstall)} --activate" onclick="navigator.clipboard.writeText(this.dataset.cmd);this.textContent='✓';setTimeout(()=>this.textContent='copy',1500)">copy</button>
                   </div>
                   <div class="package-links">
-                    \${pkg.demoUrl ? \`<a href="\${pkg.demoUrl}" target="_blank" rel="noopener">Demo ↗</a>\` : ''}
-                    <a href="\${pkg.jsrUrl}" target="_blank" rel="noopener">JSR ↗</a>
-                    \${pkg.githubUrl ? \`<a href="\${pkg.githubUrl}" target="_blank" rel="noopener">GitHub ↗</a>\` : ''}
+                    \${safeUrl(pkg.demoUrl) ? \`<a href="\${safeUrl(pkg.demoUrl)}" target="_blank" rel="noopener">Demo ↗</a>\` : ''}
+                    <a href="\${safeUrl(pkg.jsrUrl)}" target="_blank" rel="noopener">JSR ↗</a>
+                    \${safeUrl(pkg.githubUrl) ? \`<a href="\${safeUrl(pkg.githubUrl)}" target="_blank" rel="noopener">GitHub ↗</a>\` : ''}
                   </div>
                 </div>
               \`);
