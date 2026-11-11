@@ -7,3 +7,6 @@ theme:
 redirects:
   /docs/extending/mdx-content: /docs/content/mdx-content/
   /docs/extending/mdx-content/: /docs/content/mdx-content/
+
+plugins:
+  - src: jsr:@dune/plugin-admin@^4
