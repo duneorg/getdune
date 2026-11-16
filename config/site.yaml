@@ -9,4 +9,4 @@ redirects:
   /docs/extending/mdx-content/: /docs/content/mdx-content/
 
 plugins:
-  - src: jsr:@dune/plugin-admin@^4
+  - src: jsr:@dune/plugin-admin@^5
