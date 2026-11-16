@@ -7,3 +7,6 @@ sand-capture.html
 
 # Full docs content — locally copied from dune/docs/content for dev.
 # For deployment this will be a git submodule.
+
+# Secrets (DUNE_AUTHZ_HMAC_SECRET, loaded by the serve task via --env-file)
+.env

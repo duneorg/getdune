@@ -28,7 +28,7 @@
   },
   "tasks": {
     "dev": "deno run -A --watch=main.ts main.ts dev",
-    "serve": "deno run -A main.ts serve --root . --port 8085",
+    "serve": "deno run -A --env-file main.ts serve --root . --port 8085",
     "build": "deno run -A main.ts build"
   },
   "compilerOptions": {
